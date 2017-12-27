@@ -1,0 +1,3 @@
+Primary: #D24D57
+Primary-Light: #9b162e
+Primary-Dark: #ff7e84
