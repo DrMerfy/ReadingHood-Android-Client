@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ReadingHood</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string-array name="universities_names">
+
+        <item>University Of Aristotle</item>
+        <item>University Of Macedonia</item>
+        <item>University of Patras</item>
+        <item>National and Kapodistrian University of Athens</item>
+
+    </string-array>
+
+</resources>
