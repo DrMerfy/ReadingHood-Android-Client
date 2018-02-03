@@ -1,4 +1,4 @@
-# ReadingHood-Andoid-Client
+# ReadingHood-Android-Client
 The android client of the ReadingHood app.
 
 ## TL;DR
