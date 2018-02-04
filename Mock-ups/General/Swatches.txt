@@ -1,3 +1,5 @@
 Primary: #D24D57
 Primary-Light: #9b162e
 Primary-Dark: #ff7e84
+
+Black: #2E2E2E
