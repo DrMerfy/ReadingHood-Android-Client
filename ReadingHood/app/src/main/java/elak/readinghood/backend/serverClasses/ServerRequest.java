@@ -1,15 +1,14 @@
-package elak.readinghood.backend.ServerClasses;
+package elak.readinghood.backend.serverClasses;
 
-import elak.readinghood.backend.ProfileClasses.UserProfile;
-import elak.readinghood.backend.Threads.Post;
-import elak.readinghood.backend.Threads.Tag;
-import elak.readinghood.backend.Threads.Thread;
+import elak.readinghood.backend.profileClasses.UserProfile;
+import elak.readinghood.backend.threadsClasses.Post;
+import elak.readinghood.backend.threadsClasses.Tag;
+import elak.readinghood.backend.threadsClasses.Thread;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -145,7 +144,7 @@ public class ServerRequest {
                 for (int i = 0; i < jsonThreads.length(); i++) {
                     try {
                         JSONObject thread = jsonThreads.getJSONObject(i);
-                        System.out.println("Thread id = " + i + "\n" + thread);
+                        System.out.println("Thread number = " + (i + 1) + "\n" + thread);
 
                         //getting id
                         int id = thread.getInt("id");

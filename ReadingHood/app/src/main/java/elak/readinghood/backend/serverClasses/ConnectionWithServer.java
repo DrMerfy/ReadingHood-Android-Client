@@ -1,4 +1,4 @@
-package elak.readinghood.backend.ServerClasses;
+package elak.readinghood.backend.serverClasses;
 
 import java.io.BufferedReader;
 import java.io.IOException;

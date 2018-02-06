@@ -1,7 +1,7 @@
 package elak.readinghood.backend;
 
-import elak.readinghood.backend.Api.AppManager;
-import elak.readinghood.backend.Threads.Tag;
+import elak.readinghood.backend.api.AppManager;
+import elak.readinghood.backend.threadsClasses.Tag;
 
 import java.util.ArrayList;
 
@@ -36,12 +36,12 @@ public class Main {
         // System.out.println(appManager.getUserProfile().getDepartment());
 
         // example of the creating of a thread
-        //  ArrayList<String> tags = new ArrayList<>();
+        // ArrayList<String> tags = new ArrayList<>();
         // tags.add("C++11");
         // System.out.println(appManager.createThread("What is c++11", "I wanna learn c++11", tags));
 
-        // examples of getting threads but there are not working because getting threads function in ServerRequest is not finished
-        // But you can see the threads s json objects
+        // examples of getting threadsClasses but there are not working because getting threadsClasses function in ServerRequest is not finished
+        // But you can see the threadsClasses s json objects
 
         // These are for the newsFeed
         // System.out.println(appManager.getAllTheThreads());

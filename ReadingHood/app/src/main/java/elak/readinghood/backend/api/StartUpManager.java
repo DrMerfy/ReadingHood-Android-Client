@@ -1,8 +1,8 @@
-package elak.readinghood.backend.Api;
+package elak.readinghood.backend.api;
 
-import elak.readinghood.backend.ProfileClasses.UserProfile;
-import elak.readinghood.backend.ServerClasses.ServerRequest;
-import elak.readinghood.backend.ServerClasses.ServerUpdate;
+import elak.readinghood.backend.profileClasses.UserProfile;
+import elak.readinghood.backend.serverClasses.ServerRequest;
+import elak.readinghood.backend.serverClasses.ServerUpdate;
 
 import java.util.regex.Pattern;
 

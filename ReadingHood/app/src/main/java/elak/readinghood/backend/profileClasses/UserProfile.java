@@ -1,6 +1,6 @@
-package elak.readinghood.backend.ProfileClasses;
+package elak.readinghood.backend.profileClasses;
 
-import elak.readinghood.backend.ServerClasses.ServerUpdate;
+import elak.readinghood.backend.serverClasses.ServerUpdate;
 
 /**
  * @author Spiros

@@ -1,4 +1,4 @@
-package elak.readinghood.backend.ProfileClasses;
+package elak.readinghood.backend.profileClasses;
 
 /**
  * @author Spiros

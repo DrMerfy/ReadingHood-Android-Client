@@ -1,10 +1,10 @@
-package elak.readinghood.backend.Api;
+package elak.readinghood.backend.api;
 
-import elak.readinghood.backend.ProfileClasses.UserProfile;
-import elak.readinghood.backend.ServerClasses.ServerRequest;
-import elak.readinghood.backend.ServerClasses.ServerUpdate;
-import elak.readinghood.backend.Threads.Tag;
-import elak.readinghood.backend.Threads.Thread;
+import elak.readinghood.backend.profileClasses.UserProfile;
+import elak.readinghood.backend.serverClasses.ServerRequest;
+import elak.readinghood.backend.serverClasses.ServerUpdate;
+import elak.readinghood.backend.threadsClasses.Tag;
+import elak.readinghood.backend.threadsClasses.Thread;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -110,7 +110,7 @@ public class AppManager {
      * @return the threads of the connected user
      */
     public ArrayList<Thread> getTheThreadsOfTheUser() {
-        return getThreads("profile/created");
+        return getThreads("threads/created");
     }
 
     /**
