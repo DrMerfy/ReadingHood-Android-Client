@@ -1,11 +1,15 @@
 package elak.readinghood.backend.ServerClasses;
 
 import elak.readinghood.backend.ProfileClasses.UserProfile;
+import elak.readinghood.backend.Threads.Post;
+import elak.readinghood.backend.Threads.Tag;
 import elak.readinghood.backend.Threads.Thread;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -83,7 +87,7 @@ public class ServerRequest {
             try {
                 JSONObject jsonObject = new JSONObject(jsonResult);
 
-                int responseID = Integer.parseInt(jsonObject.get("id").toString());
+                int responseID = jsonObject.getInt("id");
 
                 String responseUsername = jsonObject.getString("username");
 
@@ -123,31 +127,135 @@ public class ServerRequest {
     }
 
     /**
-     * This function returns the threads of
+     * This function returns the threads that it has been asked to deliver
      *
-     * @param userProfile
-     * @param option
-     * @return
+     * @param userProfile is the user
+     * @param option      is the required question
+     * @return the threads that it has been asked to deliver
      */
     public static ArrayList<Thread> getThreads(UserProfile userProfile, String option) {
-
+        ArrayList<Thread> threads = new ArrayList<>();
         try {
             String url = "https://readinghood.tk:8443/" + option;
-            String jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url  ,userProfile.getEmail(), userProfile.getPassword(), "GET");
-            System.out.println(jsonResult);
+            System.out.println(url);
+            String jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url, userProfile.getEmail(), userProfile.getPassword(), "GET");
+            // System.out.println(jsonResult);
             try {
-                JSONObject jsonObject = new JSONObject(jsonResult);
-                System.out.println(jsonObject);
-                System.out.println(jsonObject.toJSONArray(jsonObject.getJSONArray("id")).getJSONObject(1));
-                String test = jsonObject.getJSONArray("1").getJSONObject(1).toString();
-                System.out.println(test);
-            } catch (JSONException J) {
-                return null;
-            }
-            //System.out.println("Response from '" + url + email + "':\n" + pingResult);
-        } catch (IOException e) {
+                JSONArray jsonThreads = new JSONArray(jsonResult);
+                for (int i = 0; i < jsonThreads.length(); i++) {
+                    try {
+                        JSONObject thread = jsonThreads.getJSONObject(i);
+                        System.out.println("Thread id = " + i + "\n" + thread);
 
+                        //getting id
+                        int id = thread.getInt("id");
+
+                        //getting title
+                        String title = thread.getString("title");
+
+                        //getting views
+                        int views = thread.getInt("views");
+                        //System.out.println(id + " , " + title + " , ");
+
+                        //getting tags
+                        ArrayList<Tag> tags = new ArrayList<>();
+                        try {
+                            JSONArray tagsArray = thread.getJSONArray("tags");
+                            for (int j = 0; j < tagsArray.length(); j++) {
+                                JSONObject jsonTag = tagsArray.getJSONObject(0);
+                                //System.out.println(jsonTag);
+                                try {
+                                    tags.add(new Tag(jsonTag.getInt("id"), jsonTag.getInt("usages"), jsonTag.getString("name")));
+                                    //System.out.println(tags.get(j).getId() + " , " + tags.get(j).getUsages() + " , " + tags.get(j).getName());
+                                } catch (JSONException J) {
+
+                                }
+                            }
+                        } catch (JSONException J) {
+                        }
+
+                        //getting posts
+                        ArrayList<Post> posts = new ArrayList<>();
+                        try {
+                            JSONArray postsArray = thread.getJSONArray("posts");
+
+                            //getting question post
+                            try {
+                                JSONObject jsonPost = postsArray.getJSONObject(0);
+                                System.out.println(jsonPost);
+                            } catch (JSONException J) {
+                            }
+                            for (int j = 1; j < postsArray.length(); j++) {
+                                JSONObject jsonPost = postsArray.getJSONObject(j);
+                                System.out.println(jsonPost);
+                                //int numberOfPosts = jsonPost
+                                /*
+                                try {
+                                    tags.add(new Tag(jsonTag.getInt("id"), jsonTag.getInt("usages"), jsonTag.getString("name")));
+                                    //System.out.println(tags.get(j).getId() + " , " + tags.get(j).getUsages() + " , " + tags.get(j).getName());
+                                } catch (JSONException J) {
+
+                                }
+                                */
+                            }
+                        } catch (JSONException J) {
+                        }
+                        //System.out.println();
+
+                    } catch (JSONException J) {
+                    }
+                }
+                return threads;
+            } catch (JSONException J) {
+                return threads;
+            }
+        } catch (IOException e) {
+            return threads;
         }
-        return null;
+    }
+
+    /**
+     * This functions returns the tags that has been asked to deliver
+     *
+     * @param userProfile is the user
+     * @param option      is the specific way that is asked
+     * @return the tags that has been asked to deliver
+     */
+    public static ArrayList<Tag> getTags(UserProfile userProfile, String option) {
+        ArrayList<Tag> tags = new ArrayList<>();
+        try {
+            String url = "https://readinghood.tk:8443/tags/" + option;
+            String jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url, userProfile.getEmail(), userProfile.getPassword(), "GET");
+            try {
+                JSONArray jsonTags = new JSONArray(jsonResult);
+                for (int i = 0; i < jsonTags.length(); i++) {
+                    try {
+                        JSONObject jsonTag = jsonTags.getJSONObject(i);
+
+                        // get id
+                        int id = jsonTag.getInt("id");
+                        //System.out.println(id);
+
+                        // get usages
+                        int usages = jsonTag.getInt("usages");
+                        //System.out.println(usages);
+
+                        // get tag name
+                        String tagName = jsonTag.getString("name");
+                        //System.out.println(tagName);
+
+                        tags.add(new Tag(id, usages, tagName));
+                    } catch (JSONException J) {
+
+                    }
+                }
+                return tags;
+            } catch (JSONException J) {
+                return tags;
+            }
+        } catch (IOException e) {
+            return tags;
+        }
+
     }
 }

@@ -7,14 +7,19 @@ public class Profile {
     protected int id;
     protected String name, surname, department;
 
-    public Profile(){
-
-    }
     /**
      * trivial constructor
-     * @param id the id of the user
-     * @param name the user given name
-     * @param surname the user given surname
+     */
+    public Profile() {
+
+    }
+
+    /**
+     * trivial constructor
+     *
+     * @param id         the id of the user
+     * @param name       the user given name
+     * @param surname    the user given surname
      * @param department the user given department
      */
     public Profile(int id, String name, String surname, String department) {

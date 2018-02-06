@@ -3,10 +3,11 @@ package elak.readinghood.backend.Api;
 import elak.readinghood.backend.ProfileClasses.UserProfile;
 import elak.readinghood.backend.ServerClasses.ServerRequest;
 import elak.readinghood.backend.ServerClasses.ServerUpdate;
-import elak.readinghood.backend.Threads.Post;
 import elak.readinghood.backend.Threads.Tag;
 import elak.readinghood.backend.Threads.Thread;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -59,8 +60,6 @@ public class AppManager {
      * @param tags  are the tags of the thread
      */
     public String createThread(String title, String text, ArrayList<String> tags) {
-        https:
-//readinghood.tk:8443/threads/new?title=What is Json&text=my question is what is json...&tags=json,spring
         if (ServerUpdate.createThread(userProfile, title, text, tags)) {
             return "Success";
         } else {
@@ -78,20 +77,91 @@ public class AppManager {
     }
 
     /**
+     * This function return the favourite threads of the user
+     *
+     * @return the favourite threads of the user
+     */
+    public ArrayList<Thread> getFavouritesThreads() {
+        return getThreads("profiles/favorites");
+    }
+
+    /**
      * This function returns the recent threads of the news feed
      *
-     * @return
+     * @return the recent threads of the news feed
      */
     public ArrayList<Thread> getRecentThreadsOfNewsFeed() {
         return getThreads("threads/recent");
     }
 
     /**
+     * This function returns the threads with the given tag name
+     *
+     * @param tagName the user given tag name
+     * @return the threads with this tag
+     */
+    public ArrayList<Thread> getThreadsAccordingToATag(String tagName) {
+        return getThreads("tags/threads?name=" + tagName);
+    }
+
+    /**
+     * This function returns the threads of the connected user
+     *
+     * @return the threads of the connected user
+     */
+    public ArrayList<Thread> getTheThreadsOfTheUser() {
+        return getThreads("profile/created");
+    }
+
+    /**
+     * This function returns all the threads
+     *
+     * @return all the threads
+     */
+    public ArrayList<Thread> getAllTheThreads() {
+        return getThreads("threads/all");
+    }
+
+    /**
+     * This function returns the threads according to a specific user given text which might be included somewhere
+     *
+     * @return the threads according to a specific user given text which might be included somewhere
+     */
+    public ArrayList<Thread> getThreadsAccordingToText(String text) {
+        try {
+            return getThreads("threads/search?text=" + URLEncoder.encode(text, "UTF-8"));
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * This function returns the most used tags in descending order
+     *
+     * @return the most used tags in descending order
+     */
+    public ArrayList<Tag> getMostUsedTags() {
+        return getTags("mostUsed");
+    }
+
+    /**
      * Returns threads according to the option asked
+     *
      * @param option the option that is asked
      * @return the threads that have been asked to be delivered
      */
     private ArrayList<Thread> getThreads(String option) {
         return ServerRequest.getThreads(userProfile, option);
     }
+
+    /**
+     * This function return tags according to an option
+     *
+     * @param option is the option asked
+     * @return the tags according to an option
+     */
+    private ArrayList<Tag> getTags(String option) {
+        return ServerRequest.getTags(userProfile, option);
+    }
+
 }

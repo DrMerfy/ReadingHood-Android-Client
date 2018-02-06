@@ -1,6 +1,5 @@
 package elak.readinghood.backend.ServerClasses;
 
-import com.sun.jndi.toolkit.url.Uri;
 import elak.readinghood.backend.ProfileClasses.UserProfile;
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class ServerUpdate {
                     "&email=" + email +
                     "&password=" + password;
             if (!department.isEmpty()) {
-                url = url +  "&department=" + department;
+                url = url + "&department=" + department;
             }
             String pingResult = ConnectionWithServer.sendSimpleRequest(url, "GET");
             //System.out.println(pingResult);
@@ -48,9 +47,9 @@ public class ServerUpdate {
     /**
      * This function edits the name of the user
      *
-     * @param email the user's email
+     * @param email    the user's email
      * @param password the user's password
-     * @param newName the user given new name
+     * @param newName  the user given new name
      * @return a boolean value which indicates if the name was updates succefully
      */
     public static boolean editName(String email, String password, String newName) {
@@ -69,8 +68,8 @@ public class ServerUpdate {
     /**
      * This function edits the surname of the user
      *
-     * @param email the user's email
-     * @param password the user's password
+     * @param email      the user's email
+     * @param password   the user's password
      * @param newSurname the user given new surname
      * @return a boolean value which indicates if the surname was updates successfully
      */
@@ -92,8 +91,8 @@ public class ServerUpdate {
      * You will get as a result if the creation was correct or not.
      *
      * @param userProfile is the user that wants to create a thread
-     * @param title is the title of the thread
-     * @param tags are the tags of the thread
+     * @param title       is the title of the thread
+     * @param tags        are the tags of the thread
      * @return a boolean value which indicates if the creation was successful or not
      */
     public static boolean createThread(UserProfile userProfile, String title, String text, ArrayList<String> tags) {

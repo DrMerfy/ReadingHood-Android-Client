@@ -1,7 +1,6 @@
 package elak.readinghood.backend.Threads;
 
 import elak.readinghood.backend.ProfileClasses.Profile;
-import elak.readinghood.backend.ProfileClasses.UserProfile;
 
 import java.util.ArrayList;
 
@@ -9,25 +8,31 @@ import java.util.ArrayList;
  * @author Spiros
  */
 public class Thread {
-    private Profile profile;
+    private Profile creator;
     private int id, views;
     private String title;
     private ArrayList<Tag> tags;
+    private Post questionPost;
     private ArrayList<Post> posts;
 
     /**
      * When you initialize a Thread, you need The title, the tags and the posts of it
      *
-     * @param id    is the id of the thread
-     * @param title is the title of the thread
-     * @param tags  are the tags of the thread
-     * @param posts are the posts of the thread
+     * @param creator      is the creator of the thread
+     * @param id           is the id of the thread
+     * @param title        is the title of the thread
+     * @param views        are the amount of views of the thread
+     * @param tags         are the tags of the thread
+     * @param questionPost the question post of the thread
+     * @param posts        are the posts of the thread
      */
-    public Thread(Profile profile, int id, String title, ArrayList<Tag> tags, ArrayList<Post> posts) {
-        this.profile = profile;
+    public Thread(Profile creator, int id, String title, int views, ArrayList<Tag> tags, Post questionPost, ArrayList<Post> posts) {
+        this.creator = creator;
         this.id = id;
+        this.views = views;
         this.title = title;
         this.tags = tags;
+        this.questionPost = questionPost;
         this.posts = posts;
     }
 
@@ -35,7 +40,7 @@ public class Thread {
      * @return the user of the creator of the thread
      */
     public Profile getThreadCreatorProfile() {
-        return profile;
+        return creator;
     }
 
     /**
@@ -53,7 +58,7 @@ public class Thread {
     }
 
     /**
-     * @return the title of the user
+     * @return the title of the thread
      */
     public String getTitle() {
         return title;
@@ -64,6 +69,13 @@ public class Thread {
      */
     public ArrayList<Tag> getTags() {
         return tags;
+    }
+
+    /**
+     * @return the question post of the creator the thread
+     */
+    public Post getQuestionPost() {
+        return questionPost;
     }
 
     /**

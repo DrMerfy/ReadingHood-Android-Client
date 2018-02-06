@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author Spiros
  */
 public class StartUpManager {
-    // input data data
+    // user given data
     private String email, username, password, department;
 
     /**
@@ -100,7 +100,7 @@ public class StartUpManager {
     /**
      * This function is initialized ONLY after finishing the assignment of the variables of the user in registration.
      * It creates a user.
-     *
+     * <p>
      * Error0 = "Success"
      * Error1 = "Error connecting with server"
      *
@@ -172,7 +172,7 @@ public class StartUpManager {
      * @param department is the user given department
      */
     private void registrationSetDepartment(String department) {
-        if(!department.isEmpty()) {
+        if (!department.isEmpty()) {
             this.department = department;
         }
     }
