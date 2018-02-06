@@ -256,6 +256,5 @@ public class ServerRequest {
         } catch (IOException e) {
             return tags;
         }
-
     }
 }

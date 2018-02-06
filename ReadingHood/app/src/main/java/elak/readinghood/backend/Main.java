@@ -36,9 +36,9 @@ public class Main {
         // System.out.println(appManager.getUserProfile().getDepartment());
 
         // example of the creating of a thread
-        // ArrayList<String> tags = new ArrayList<>();
-        // tags.add("takis");
-        // System.out.println(appManager.createThread("katsavakis", "takis man", tags));
+        //  ArrayList<String> tags = new ArrayList<>();
+        // tags.add("C++11");
+        // System.out.println(appManager.createThread("What is c++11", "I wanna learn c++11", tags));
 
         // examples of getting threads but there are not working because getting threads function in ServerRequest is not finished
         // But you can see the threads s json objects
@@ -59,10 +59,14 @@ public class Main {
         // System.out.println(appManager.getThreadsAccordingToATag("takis"));
 
         /*
-         * this one is working and it also for the tag menu search
+         * these 2 are working and it also for the tag menu search
          * and if someone wants to select one of those you will have to use
-         * getMostUsedTags().get(tagNumberFromTheArrayList).getName() and then getThreads
-         * according to that tag from the function above
+         * getMostUsedTags() and then
+         * getMostUsedTags().get(tagNumberFromTheArrayList).getName() or
+         * if someone searches for something according to a name
+         * getTagsAccordingToName("name") and then
+         * getTagsAccordingToName("name").get(tagNumberFromTheArrayList).getName()
+         * and then getThreads according to that tag from the function above
          */
         ArrayList<Tag> mostUsedTags = appManager.getMostUsedTags();
         System.out.println("\nMost Used Tags");
@@ -70,8 +74,11 @@ public class Main {
             System.out.println("Name = " + tag.getName() + ", Usages = " + tag.getUsages() + " , id = " + tag.getId());
         }
 
+        ArrayList<Tag> tagsAccordingToName = appManager.getTagsAccordingToName("C++");
+        System.out.println("\nTags according to C++");
+        for (Tag tag : tagsAccordingToName) {
+            System.out.println("Name = " + tag.getName() + ", Usages = " + tag.getUsages() + " , id = " + tag.getId());
+        }
         // todo finish getThreads, upVote, downVote, addTo favorites, activity, increase views when you see a post
-
-
     }
 }

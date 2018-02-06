@@ -145,6 +145,20 @@ public class AppManager {
     }
 
     /**
+     * This function returns the tags that include the name that was given
+     *
+     * @param name the name that was given
+     * @return the tags that include the name that was given
+     */
+    public ArrayList<Tag> getTagsAccordingToName(String name) {
+        try {
+            return getTags("search?name=" + URLEncoder.encode(name, "UTF-8"));
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
      * Returns threads according to the option asked
      *
      * @param option the option that is asked
@@ -163,5 +177,4 @@ public class AppManager {
     private ArrayList<Tag> getTags(String option) {
         return ServerRequest.getTags(userProfile, option);
     }
-
 }

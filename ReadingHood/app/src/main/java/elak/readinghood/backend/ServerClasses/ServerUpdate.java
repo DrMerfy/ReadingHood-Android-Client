@@ -98,9 +98,9 @@ public class ServerUpdate {
     public static boolean createThread(UserProfile userProfile, String title, String text, ArrayList<String> tags) {
         try {
             String url = "https://readinghood.tk:8443/threads/new?title=";
-            String restOfUrl = URLEncoder.encode(title, "UTF-8") + "&text=" + URLEncoder.encode(text, "UTF-8") + "&tags=" + tags.get(0);
+            String restOfUrl = URLEncoder.encode(title, "UTF-8") + "&text=" + URLEncoder.encode(text, "UTF-8") + "&tags=" + URLEncoder.encode(tags.get(0), "UTF-8");
             for (int i = 1; i < tags.size(); i++) {
-                restOfUrl = restOfUrl + "," + tags.get(i);
+                restOfUrl = restOfUrl + "," + URLEncoder.encode(tags.get(i), "UTF-8");
             }
             System.out.println(url + URLEncoder.encode(restOfUrl, "UTF-8"));
             String pingResult = ConnectionWithServer.sendAuthenticatedRequest(url + restOfUrl, userProfile.getEmail(), userProfile.getPassword(), "GET");
