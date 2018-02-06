@@ -1,25 +1,26 @@
-package elak.readinghood.Backend;
+package elak.readinghood.backend.Api;
 
-import elak.readinghood.Backend.ServerClasses.Request;
-import elak.readinghood.Backend.ServerClasses.Update;
+import elak.readinghood.backend.ProfileClasses.UserProfile;
+import elak.readinghood.backend.ServerClasses.ServerRequest;
+import elak.readinghood.backend.ServerClasses.ServerUpdate;
 
 import java.util.regex.Pattern;
 
 /**
- * @author Spiros, Nasos
+ * @author Spiros
  */
-public class AccountManager {
+public class StartUpManager {
     // input data data
     private String email, username, password, department;
 
     /**
      * trivial constructor
      */
-    public AccountManager() {
-        this.email = "";
-        this.username = "";
-        this.password = "";
-        this.department = "";
+    public StartUpManager() {
+        this.email = null;
+        this.username = null;
+        this.password = null;
+        this.department = null;
     }
 
     /**
@@ -28,7 +29,7 @@ public class AccountManager {
      * correct and returns an error text based on the result of the given variables
      * <p>
      * Error0 = "Success" (which means that the user given variable where correct and then you can
-     * user Request class to get the user profile based on these email and password)
+     * user ServerRequest class to get the user profile based on these email and password)
      * Error1 = "Wrong Email or Password" (which means that the email does not exist in the databse)
      * Error2 = "Wrong Password" (which means that the given password does not match the email password)
      * Error404 = "Fill every field" (which means that the user must fill all the given fields)
@@ -42,10 +43,10 @@ public class AccountManager {
             return "Fill every field";
         }
 
-        boolean existenceOfEmail = Request.existenceOfEmail(email.toLowerCase());
+        boolean existenceOfEmail = ServerRequest.existenceOfEmail(email.toLowerCase());
 
         if (existenceOfEmail) {
-            boolean correctPassword = Request.checkPasswordForEmail(email.toLowerCase(), password);
+            boolean correctPassword = ServerRequest.checkPasswordForEmail(email.toLowerCase(), password);
 
             if (correctPassword) {
                 this.email = email.toLowerCase();
@@ -65,16 +66,16 @@ public class AccountManager {
      * registrationSetEMailAndUsername(), registrationSetDepartment(), registrationSetPasswordAndRePassword()
      * and you can check what do they return by looking into their javadoc.
      * <p>
-     * For each call of the function you parse the variable that you need and for the rest you put an empty string "".
+     * For each call of the function you parse the variable that you need and for the rest you put null.
      * <p>
      * (PanelId 1) = you use this id = 1 to get the results of the registrationSetEMailAndUsername() function.
-     * The only variables that you need are email and username and put "" to the rest.
+     * The only variables that you need are email and username and put null to the rest.
      * <p>
      * (PanelId 2) = you use this id = 2 to set the department registrationSetDepartment() function.
-     * The only variable that you need is the department and put "" to the rest.
+     * The only variable that you need is the department and put null to the rest.
      * <p>
      * (PanelId 3) = you use this id = 3 to get the results of the registrationSetPasswordAndRePassword() function
-     * The only variables that you need are password and rePassword and put "" to the rest.
+     * The only variables that you need are password and rePassword and put null to the rest.
      *
      * @param panelID    is the id of the panel
      * @param email      is the user given email
@@ -97,19 +98,34 @@ public class AccountManager {
     }
 
     /**
-     * This function is initialized ONLY after finishing the setting of the variables of the user.
+     * This function is initialized ONLY after finishing the assignment of the variables of the user in registration.
      * It creates a user.
      *
-     * @return a boolean value which indicates if the creation of the user was Successful
+     * Error0 = "Success"
+     * Error1 = "Error connecting with server"
+     *
+     * @return an error text
      */
-    public boolean createUser() {
-        String result = Update.createUser(email, username, password, department);
-        System.out.println(result);
-
-        if (result.equals("OK")) {
-            return true;
+    public String createUser() {
+        if (ServerUpdate.createUser(email, username, password, department)) {
+            return "Success";
         } else {
-            return false;
+            return "Error connecting with server";
+        }
+    }
+
+    /**
+     * This function is called ONLY after succeeding login and it returns the profile of the user
+     *
+     * @return the profile of the user
+     */
+    public UserProfile getUserProfile() {
+        UserProfile userProfile = ServerRequest.getUserProfile(email, password);
+        if (userProfile != null) {
+            return userProfile;
+        } else {
+            System.out.println("Error connection with server");
+            return null;
         }
     }
 
@@ -136,7 +152,7 @@ public class AccountManager {
         boolean correctEmailFormat = VALID_EMAIL_ADDRESS_REGEX.matcher(email.toLowerCase()).find();
 
         if (correctEmailFormat) {
-            boolean existenceOfEmail = Request.existenceOfEmail(email);
+            boolean existenceOfEmail = ServerRequest.existenceOfEmail(email);
 
             if (!existenceOfEmail) {
                 this.email = email.toLowerCase();
@@ -156,7 +172,9 @@ public class AccountManager {
      * @param department is the user given department
      */
     private void registrationSetDepartment(String department) {
-        this.department = department;
+        if(!department.isEmpty()) {
+            this.department = department;
+        }
     }
 
 

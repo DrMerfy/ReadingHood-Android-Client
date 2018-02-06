@@ -1,51 +1,34 @@
-package elak.readinghood.Backend.ProfileClasses;
+package elak.readinghood.backend.ProfileClasses;
 
 /**
- * @author Spiros, Nasos
+ * @author Spiros
  */
 public class Profile {
-    protected String email, username, password, name, surname, department;
+    protected int id;
+    protected String name, surname, department;
 
     public Profile(){
 
     }
     /**
-     * trivial contructor
-     * @param email the user given email
-     * @param username the user given username
-     * @param password the user given password
+     * trivial constructor
+     * @param id the id of the user
      * @param name the user given name
      * @param surname the user given surname
      * @param department the user given department
      */
-    public Profile(String email, String username, String password, String name, String surname, String department) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
+    public Profile(int id, String name, String surname, String department) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.department = department;
     }
 
     /**
-     * @return the email of the user
+     * @return the id of the UserProfile
      */
-    public String getEmail() {
-        return this.email;
-    }
-
-    /**
-     * @return the username of the user
-     */
-    public String getUsername() {
-        return this.username;
-    }
-
-    /**
-     * @return the password of the user
-     */
-    public String getPassword() {
-        return this.password;
+    public int getId() {
+        return id;
     }
 
     /**

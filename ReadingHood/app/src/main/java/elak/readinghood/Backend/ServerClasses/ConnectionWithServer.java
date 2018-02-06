@@ -1,4 +1,4 @@
-package elak.readinghood.Backend.ServerClasses;
+package elak.readinghood.backend.ServerClasses;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +10,9 @@ import java.net.URL;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * @author Spiros
+ */
 class ConnectionWithServer {
     private static PrintStream originalStream = System.out;
     private static PrintStream noOutputStream = new PrintStream(new OutputStream() {
