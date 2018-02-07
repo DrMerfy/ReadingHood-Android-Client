@@ -14,29 +14,22 @@ import java.util.ArrayList;
  * @author Spiros
  */
 public class AppManager {
-    private StartUpManager startUpManager;
-    private UserProfile userProfile;
-
-    /**
-     * trivial constructor
-     */
-    public AppManager() {
-        startUpManager = new StartUpManager();
-    }
+    private static StartUpManager startUpManager = new StartUpManager();;
+    private static UserProfile userProfile;
 
     /**
      * You use this function to login or register (look into StartUpManager class to understand how it works)
      *
      * @return a static object of startUpManager
      */
-    public StartUpManager getStartUpManager() {
+    public static StartUpManager getStartUpManager() {
         return startUpManager;
     }
 
     /**
      * This function sets the user
      */
-    public void setUserProfile() {
+    public static void setUserProfile() {
         userProfile = startUpManager.getUserProfile();
         startUpManager = null;
     }
@@ -47,16 +40,16 @@ public class AppManager {
      *
      * @return "Successful log out"
      */
-    public String logOut() {
-        this.userProfile = null;
-        this.startUpManager = new StartUpManager();
+    public static String logOut() {
+        userProfile = null;
+        startUpManager = new StartUpManager();
         return "Successful log out";
     }
 
     /**
      * @return the profile of the user
      */
-    public UserProfile getUserProfile() {
+    public static UserProfile getUserProfile() {
         return userProfile;
     }
 
@@ -72,7 +65,7 @@ public class AppManager {
      * @param text  is the text of the first post of the thread
      * @param tags  are the tags of the thread
      */
-    public String createThread(String title, String text, ArrayList<String> tags) {
+    public static String createThread(String title, String text, ArrayList<String> tags) {
         if (ServerUpdate.createThread(userProfile, title, text, tags)) {
             return "Success";
         } else {
@@ -85,7 +78,7 @@ public class AppManager {
      *
      * @return the popular threads of the news feed
      */
-    public ArrayList<Thread> getPopularThreadsOfNewsFeed() {
+    public static ArrayList<Thread> getPopularThreadsOfNewsFeed() {
         return getThreads("threads/popular");
     }
 
@@ -94,7 +87,7 @@ public class AppManager {
      *
      * @return the favourite threads of the user
      */
-    public ArrayList<Thread> getFavouritesThreads() {
+    public static ArrayList<Thread> getFavouritesThreads() {
         return getThreads("profile/favorites");
     }
 
@@ -103,7 +96,7 @@ public class AppManager {
      *
      * @return the recent threads of the news feed
      */
-    public ArrayList<Thread> getRecentThreadsOfNewsFeed() {
+    public static ArrayList<Thread> getRecentThreadsOfNewsFeed() {
         return getThreads("threads/recent");
     }
 
@@ -113,7 +106,7 @@ public class AppManager {
      * @param tagName the user given tag name
      * @return the threads with this tag
      */
-    public ArrayList<Thread> getThreadsAccordingToATag(String tagName) {
+    public static ArrayList<Thread> getThreadsAccordingToATag(String tagName) {
         return getThreads("tags/threads?name=" + tagName);
     }
 
@@ -122,7 +115,7 @@ public class AppManager {
      *
      * @return the threads of the connected user
      */
-    public ArrayList<Thread> getTheThreadsOfTheUser() {
+    public static ArrayList<Thread> getTheThreadsOfTheUser() {
         return getThreads("threads/created");
     }
 
@@ -131,7 +124,7 @@ public class AppManager {
      *
      * @return all the threads
      */
-    public ArrayList<Thread> getAllTheThreads() {
+    public static ArrayList<Thread> getAllTheThreads() {
         return getThreads("threads/all");
     }
 
@@ -140,7 +133,7 @@ public class AppManager {
      *
      * @return the threads according to a specific user given text which might be included somewhere
      */
-    public ArrayList<Thread> getThreadsAccordingToText(String text) {
+    public static ArrayList<Thread> getThreadsAccordingToText(String text) {
         try {
             return getThreads("threads/search?text=" + URLEncoder.encode(text, "UTF-8"));
         } catch (IOException e) {
@@ -153,7 +146,7 @@ public class AppManager {
      *
      * @return the most used tags in descending order
      */
-    public ArrayList<Tag> getMostUsedTags() {
+    public static ArrayList<Tag> getMostUsedTags() {
         return getTags("mostUsed");
     }
 
@@ -163,7 +156,7 @@ public class AppManager {
      * @param name the name that was given
      * @return the tags that include the name that was given
      */
-    public ArrayList<Tag> getTagsAccordingToName(String name) {
+    public static ArrayList<Tag> getTagsAccordingToName(String name) {
         try {
             return getTags("search?name=" + URLEncoder.encode(name, "UTF-8"));
         } catch (IOException e) {
@@ -177,7 +170,7 @@ public class AppManager {
      * @param option the option that is asked
      * @return the threads that have been asked to be delivered
      */
-    private ArrayList<Thread> getThreads(String option) {
+    private static ArrayList<Thread> getThreads(String option) {
         return ServerRequest.getThreads(userProfile, option);
     }
 
@@ -187,7 +180,7 @@ public class AppManager {
      * @param option is the option asked
      * @return the tags according to an option
      */
-    private ArrayList<Tag> getTags(String option) {
+    private static ArrayList<Tag> getTags(String option) {
         return ServerRequest.getTags(userProfile, option);
     }
 }

@@ -1,5 +1,6 @@
 package elak.readinghood.backend.serverClasses;
 
+import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.profileClasses.UserProfile;
 import elak.readinghood.backend.threadsClasses.Post;
 import elak.readinghood.backend.threadsClasses.Tag;
