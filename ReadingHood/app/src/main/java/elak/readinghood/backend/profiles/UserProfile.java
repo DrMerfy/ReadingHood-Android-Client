@@ -1,18 +1,26 @@
-package elak.readinghood.backend.profileClasses;
+package elak.readinghood.backend.profiles;
 
-import elak.readinghood.backend.serverClasses.ServerUpdate;
+import elak.readinghood.backend.server.ServerUpdate;
 
 /**
  * @author Spiros
  */
 public class UserProfile extends Profile {
 
-    private String email, username, password;
+    private String email, password;
+
+    /**
+     * trivial constructor
+     */
+    public UserProfile() {
+
+    }
 
     /**
      * trivial contructor
      *
      * @param id         the id of the user
+     * @param reputation the reputation of the user
      * @param email      the user given email
      * @param username   the user given username
      * @param password   the user given password
@@ -20,8 +28,9 @@ public class UserProfile extends Profile {
      * @param surname    the user given surname
      * @param department the user given department
      */
-    public UserProfile(int id, String email, String username, String password, String name, String surname, String department) {
+    public UserProfile(int id, int reputation, String email, String username, String password, String name, String surname, String department) {
         this.id = id;
+        this.reputation = reputation;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -31,6 +40,8 @@ public class UserProfile extends Profile {
     }
 
     /**
+     * YOU NEVER USE THIS FUNCTION as front end developer.
+     *
      * @return the email of the user
      */
     public String getEmail() {
@@ -38,13 +49,8 @@ public class UserProfile extends Profile {
     }
 
     /**
-     * @return the username of the user
-     */
-    public String getUsername() {
-        return this.username;
-    }
-
-    /**
+     * YOU NEVER USE THIS FUNCTION as front end developer.
+     *
      * @return the password of the user
      */
     public String getPassword() {
@@ -52,7 +58,7 @@ public class UserProfile extends Profile {
     }
 
     /**
-     * This function edits the name of the user
+     * This function edits the name of the user.
      * <p>
      * Error0 = "Success" (which means that the name was changed successfully)
      * Error1 = "Error connecting with server"
@@ -66,7 +72,7 @@ public class UserProfile extends Profile {
             return "Fill every field";
         }
 
-        if (ServerUpdate.editName(email, password, newName)) {
+        if (ServerUpdate.editName(newName)) {
             this.name = newName;
             return "Success";
         } else {
@@ -75,7 +81,7 @@ public class UserProfile extends Profile {
     }
 
     /**
-     * This function edits the surname of the user
+     * This function edits the surname of the user.
      * <p>
      * Error0 = "Success" (which means that the surname was changed successfully)
      * Error1 = "Error connecting with server"
@@ -88,7 +94,7 @@ public class UserProfile extends Profile {
         if (newSurname.isEmpty()) {
             return "Fill every field";
         }
-        if (ServerUpdate.editSurname(email, password, newSurname)) {
+        if (ServerUpdate.editSurname(newSurname)) {
             this.surname = newSurname;
             return "Success";
         } else {

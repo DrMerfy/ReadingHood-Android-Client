@@ -1,84 +1,125 @@
 package elak.readinghood.backend;
 
 import elak.readinghood.backend.api.AppManager;
-import elak.readinghood.backend.threadsClasses.Tag;
+import elak.readinghood.backend.posts.Post;
+import elak.readinghood.backend.tags.Tags;
+import elak.readinghood.backend.threads.Thread;
+import elak.readinghood.backend.threads.Threads;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Main {
 
     public static void main(String[] args) {
-        // registration example
-        // AppManager.getStartUpManager().registrationSet(1, "makis4@makis.com", "makis4", null, null, null);
-        // AppManager.getStartUpManager().registrationSet(2, null, null, "Informatics", null, null);
-        // AppManager.getStartUpManager().registrationSet(3, null, null, null, "a1234567", "a1234567");
-        // AppManager.getStartUpManager().createUser();
+        // !!!!!!!!! MANY FUNCTIONS HAVE STRING RESULTS or booleans. YOU CAN CHECK WITH SYSTEM.OUT.PRINTLN()!!!!!!!!!
 
+        // Star Panel
+        // registration example
+        // System.out.println(AppManager.getStartUpManager().registrationSetEMailAndUsername("spyridon97@hotmail.com", "spyridon97"));
+        // System.out.println(AppManager.getStartUpManager().registrationSetDepartment("Informatics"));
+        // System.out.println(AppManager.getStartUpManager().registrationSetPasswordAndRePassword("a1234567", "a1234567"));
+        // System.out.println(AppManager.getStartUpManager().createUserProfile());
         // example of login
-        AppManager.getStartUpManager().login("makis4@makis.com", "a1234567");
+        System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
         AppManager.setUserProfile();
 
-        // example of getting info of user and edit name and surname example
-        // System.out.println(AppManager.getUserProfile().getId());
-        // System.out.println(AppManager.getUserProfile().getEmail());
-        // System.out.println(AppManager.getUserProfile().getPassword());
+
+        Threads threads;
+
+        // Profile panel
         // System.out.println(AppManager.getUserProfile().getUsername());
-        // AppManager.getUserProfile().editName("Makis");
-        System.out.println(AppManager.getUserProfile().getName());
-        // AppManager.getUserProfile().editSurname("Katsavakis");
-        System.out.println(AppManager.getUserProfile().getSurname());
+        // System.out.println(AppManager.getUserProfile().getName());
+        // System.out.println(AppManager.getUserProfile().getSurname());
         // System.out.println(AppManager.getUserProfile().getDepartment());
+        // System.out.println(AppManager.getUserProfile().getReputation());
+        // System.out.println(AppManager.getUserProfile().getActivity().getLatestUpVotedPostText());
+        // System.out.println(AppManager.getUserProfile().getActivity().getLatestDownVotedPostText());
+        // System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedPostText());
+        // System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedThreadTitle());
+        // threads = AppManager.getTheThreadsOfTheUser(); // this will a be click button that will return threads
 
-        // example of the creating of a thread
-        // ArrayList<String> tags = new ArrayList<>();
-        // tags.add("Makis4 found");
-        // System.out.println(AppManager.createThread("Who is makis katsanevakis?", "Who the fuck is he?", tags));
+        // Settings panel
+        // System.out.println(AppManager.getUserProfile().editName("Spyridon"));
+        // System.out.println(AppManager.getUserProfile().editSurname("Tsalikis"));
+        AppManager.logOut();
 
-        // examples of getting threadsClasses but there are not working because getting threadsClasses function in ServerRequest is not finished
-        // But you can see the threadsClasses s json objects
+        // Thread creation Example
+        // HashSet<String> tags = new HashSet<>();
+        // tags.add("C++");
+        // System.out.println(AppManager.createThread("Learning c++", "Can somebody help me learn c++?", tags));
+
 
         // These are for the newsFeed
-        // System.out.println(AppManager.getAllTheThreads());
-        // System.out.println(AppManager.getPopularThreadsOfNewsFeed());
-        // System.out.println(AppManager.getRecentThreadsOfNewsFeed());
-        // System.out.println(AppManager.getFavouritesThreads());
 
-        // This will be included in the profile of the user
-        // System.out.println(AppManager.getTheThreadsOfTheUser());
+        // threads = AppManager.getAllTheThreads();
+        // threads = AppManager.getPopularThreadsOfNewsFeed();
+        // threads = AppManager.getRecentThreadsOfNewsFeed();
+        // threads = AppManager.getFavoritesThreads();
+        // threads = AppManager.getThreadsAccordingToTheDepartmentOfTheUser();
 
-        // This is for the search bar
-        // System.out.println(AppManager.getThreadsAccordingToText("takis"));
+        // Search bar
+        // threads = AppManager.getThreadsAccordingToText("c++");
 
-        // this is for the tag menu search
-        // System.out.println(AppManager.getThreadsAccordingToATag("MakisGuy"));
+        Tags tags;
+
+        // Tag search
+        // tags = AppManager.getMostUsedTags();
+        // tags = AppManager.getTagsAccordingToName("C++");
+        // tags = AppManager.getThreadsAccordingToATag("C++");
 
         /*
-         * these 2 are working and it also for the tag menu search
-         * and if someone wants to select one of those you will have to use
-         * getMostUsedTags() and then
-         * getMostUsedTags().get(tagNumberFromTheArrayList).getName() or
-         * if someone searches for something according to a name
-         * getTagsAccordingToName("name") and then
-         * getTagsAccordingToName("name").get(tagNumberFromTheArrayList).getName()
-         * and then getThreads according to that tag from the function above
-         */
-        ArrayList<Tag> mostUsedTags = AppManager.getMostUsedTags();
-        System.out.println("\nMost Used Tags");
-        for (Tag tag : mostUsedTags) {
-            System.out.println("Name = " + tag.getName() + ", Usages = " + tag.getUsages() + " , id = " + tag.getId());
+        // View Tags example
+        System.out.println("\nAsked Tags");
+        for (int i = 0; i < tags.size(); i++) {
+            System.out.println("Name = " + tags.getTag(i).getName() + ", Usages = " + tags.getTag(i).getUsages() + " , id = " + tags.getTag(i).getId());
+        }
+        */
+
+        /*
+        // View of news feed example. Select the threads you wanna see
+        for (int i = 0; i < threads.size(); i++) {
+            Thread thread = threads.getThread(i);
+            System.out.println("Thread title = " + thread.getTitle());
+            System.out.println("Question = + " + thread.getQuestionPost().getText());
+            System.out.println("Author = " + thread.getThreadCreatorProfile().getUsername());
+            System.out.println("Views = " + thread.getViews());
+            System.out.println();
         }
 
-        ArrayList<Tag> tagsAccordingToName = AppManager.getTagsAccordingToName("C++");
-        //System.out.println("\nTags according to C++");
-        for (Tag tag : tagsAccordingToName) {
-            //System.out.println("Name = " + tag.getName() + ", Usages = " + tag.getUsages() + " , id = " + tag.getId());
+        // How to see a thread
+        Thread chosenThread = threads.seeThread(0);
+
+        // get posts of a thread
+        for (int i = 0; i < chosenThread.getAnswerPosts().size() + 1; i++) {
+            Post post;
+            if (i == 0) {
+                post = chosenThread.getQuestionPost();
+            } else {
+                post = chosenThread.getAnswerPosts().getPost(i - 1);
+            }
+
+            System.out.println("Post Text = " + post.getText());
+            System.out.println("Author = " + post.getAuthor().getUsername());
+            System.out.println("Number of Votes = " + post.getNumberOfVotes());
         }
 
-        // log out example
-        System.out.println(AppManager.logOut());
+        // upVote example
+        Post chosenPost = chosenThread.getQuestionPost();
+        if (chosenPost.canYouUpVote()) {
+            chosenPost.upVoteThisPost();
+        }
 
-        // todo  finish getThreads, upVote, downVote, favorite a thread, activity, increase views when you see a post,
-        // todo  get username from profile, unique tags with a set and override equals for tag with name test
-        // todo  fix author different id than creator
+        // downVote example
+        Post chosenPost = chosenThread.getQuestionPost();
+        if (chosenPost.canYouUpVote()) {
+            chosenPost.upVoteThisPost();
+        }
+
+        // Answer Thread
+        chosenThread.answerThreadWithAPost("I can help you out. Send me and email");
+        */
+
+        // https://readinghood.tk:8443/posts/upvote?post_id=2 changes the reputation of the user correctly but does not
+        // changes the number of votes of the post
     }
 }

@@ -1,4 +1,4 @@
-package elak.readinghood.backend.serverClasses;
+package elak.readinghood.backend.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +21,17 @@ class ConnectionWithServer {
         }
     });
 
+    /**
+     * This function sends and authenticated request to the server.
+     *
+     * @param link          of the request
+     * @param email         of the user
+     * @param password      of the user
+     * @param requestMethod server based method
+     * @return the request that was asked to deliver
+     * @throws MalformedURLException exception 1
+     * @throws IOException           exception 2
+     */
     protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws MalformedURLException, IOException {
 
         System.setOut(noOutputStream); // Silence all outputs
@@ -50,6 +61,15 @@ class ConnectionWithServer {
         return response.toString();
     }
 
+    /**
+     * This function sends and a simple request to the server.
+     *
+     * @param link          of the request
+     * @param requestMethod server based method
+     * @return the request that was asked to deliver
+     * @throws MalformedURLException exception 1
+     * @throws IOException           exception 2
+     */
     protected static String sendSimpleRequest(String link, String requestMethod) throws MalformedURLException, IOException {
 
         System.setOut(noOutputStream); // Silence all outputs
