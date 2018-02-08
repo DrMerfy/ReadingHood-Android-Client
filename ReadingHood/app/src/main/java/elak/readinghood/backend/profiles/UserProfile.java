@@ -26,14 +26,12 @@ public class UserProfile extends Profile {
     public UserProfile(Profile profile, String email, String password) {
         this.id = profile.id;
         this.reputation = profile.reputation;
-
         this.username = profile.username;
         this.name = profile.name;
         this.surname = profile.surname;
         this.department = profile.department;
         this.email = email;
         this.password = password;
-
     }
 
     /**
