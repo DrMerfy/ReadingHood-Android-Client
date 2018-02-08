@@ -103,21 +103,16 @@ public class Profile {
     @Override
     public boolean equals(Object profile) {
         if (profile == null) {
-            System.out.println("makis");
             return false;
         }
         if (!Profile.class.isAssignableFrom(profile.getClass())) {
-            System.out.println("takis");
             return false;
         }
 
         final Profile other = (Profile) profile;
-
         if (this.getId() != other.getId()) {
-            //System.out.println("katsavakis");
             return false;
         }
-
         return true;
     }
 }

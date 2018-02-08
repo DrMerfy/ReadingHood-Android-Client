@@ -61,7 +61,6 @@ public class AppManager {
     public static String createThread(String title, String text, HashSet<String> tags) {
         boolean titleFullOfSpaces = title.replaceAll("\\s+", "").isEmpty();
         boolean textFullOfSpaces = text.replaceAll("\\s+", "").isEmpty();
-        boolean aStringContainsSpaces = false;
         if (title.isEmpty() || text.isEmpty() || textFullOfSpaces || titleFullOfSpaces) {
             return "Fill the fields";
         }

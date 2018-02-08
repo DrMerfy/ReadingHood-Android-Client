@@ -56,10 +56,7 @@ public class Tag {
         }
 
         final Tag other = (Tag) tag;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        if (this.getName() != other.getName()) {
+        if (this.getName().equals(other.getName())) {
             return false;
         }
         return true;
