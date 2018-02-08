@@ -1,4 +1,4 @@
-package elak.readinghood.backend.threadsClasses;
+package elak.readinghood.backend.tags;
 
 /**
  * @author Spiros
@@ -6,6 +6,13 @@ package elak.readinghood.backend.threadsClasses;
 public class Tag {
     private int id, usages;
     private String name;
+
+    /**
+     * trivial constructor
+     */
+    public Tag() {
+
+    }
 
     /**
      * @param id     is the id of the of tag
@@ -37,5 +44,21 @@ public class Tag {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object tag) {
+        if (tag == null) {
+            return false;
+        }
+        if (!Tag.class.isAssignableFrom(tag.getClass())) {
+            return false;
+        }
+
+        final Tag other = (Tag) tag;
+        if (this.getName().equals(other.getName())) {
+            return false;
+        }
+        return true;
     }
 }
