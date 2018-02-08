@@ -29,7 +29,7 @@ public class Post {
      * @param id            is the id of the post
      * @param numberOfVotes is the number of votes
      * @param text          is the text of the post
-     * @param author        is the authos of the post
+     * @param author        is the author of the post
      * @param upVoters      are the upVoters users
      * @param downVoters    are the downVoters users
      */
@@ -73,16 +73,20 @@ public class Post {
     }
 
     /**
+     * Don't Use this function.
+     *
      * @return the the upVoters of the post
      */
-    public ArrayList<Profile> getUpVoters() {
+    private ArrayList<Profile> getUpVoters() {
         return upVoters;
     }
 
     /**
+     * Don't Use this function.
+     *
      * @return the downVoters of the post
      */
-    public ArrayList<Profile> getDownVoters() {
+    private ArrayList<Profile> getDownVoters() {
         return downVoters;
     }
 
