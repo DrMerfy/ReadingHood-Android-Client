@@ -89,17 +89,17 @@ public class Main {
         System.out.println();
 
 
-        // How to see a thread
+        // How to select a thread that you wanna see
+        // Thread chosenThread = threads.seeThread(5);
+
+        // How to add thread to favorites
+        // chosenThread.addToFavorites();
+
+        // how to view a thread and it's posts
         /*
-        Thread chosenThread = threads.seeThread(5);
-        System.out.println(chosenThread.getId());
         System.out.println("Thread title = " + chosenThread.getTitle());
         System.out.println("Author = " + chosenThread.getThreadCreatorProfile().getUsername());
         System.out.println("Views = " + chosenThread.getViews());
-        */
-
-        // get posts of a thread
-        /*
         System.out.println("number of posts = " + chosenThread.getAnswerPosts().size() + 2);
         for (int i = 0; i < chosenThread.getAnswerPosts().size() + 1; i++) {
             Post post;
@@ -115,6 +115,7 @@ public class Main {
             }
         }
         //*/
+
         // upVote example
         /*
         Post chosenPost = chosenThread.getQuestionPost();
@@ -133,9 +134,9 @@ public class Main {
         }
         //*/
 
-        // Answer Thread
+        // Answer a Thread
         /*
-        System.out.println("makis is here " + chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
+        System.out.println("chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
         System.out.println(chosenThread.getTheLatestAddedPost());
         //*/
 
