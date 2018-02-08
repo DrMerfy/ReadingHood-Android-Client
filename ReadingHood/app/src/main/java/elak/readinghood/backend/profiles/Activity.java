@@ -38,7 +38,7 @@ public class Activity {
     public Activity(String latestUpVotedPostText, String latestDownVotedPostText, String latestCreatedPostText, String latestCreatedThreadTitle) {
         this.latestUpVotedPostText = latestUpVotedPostText;
         this.latestDownVotedPostText = latestDownVotedPostText;
-        this.latestCreatedPostText = latestCreatedThreadTitle;
+        this.latestCreatedPostText = latestCreatedPostText;
         this.latestCreatedThreadTitle = latestCreatedThreadTitle;
     }
 

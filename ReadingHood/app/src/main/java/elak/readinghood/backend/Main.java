@@ -36,12 +36,7 @@ public class Main {
         // System.out.println(AppManager.getUserProfile().getActivity().getLatestDownVotedPostText());
         // System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedPostText());
         // System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedThreadTitle());
-        // threads = AppManager.getTheThreadsOfTheUser(); // this will a be click button that will return threads
-
-        // Settings panel
-        // System.out.println(AppManager.getUserProfile().editName("Spyridon"));
-        // System.out.println(AppManager.getUserProfile().editSurname("Tsalikis"));
-        AppManager.logOut();
+        // threads = AppManager.getTheThreadsOfTheUser(); // this will be click button that will return threads
 
         // Thread creation Example
         // HashSet<String> tags = new HashSet<>();
@@ -119,6 +114,13 @@ public class Main {
         chosenThread.answerThreadWithAPost("I can help you out. Send me and email");
         */
 
+
+        // Settings panel
+        // System.out.println(AppManager.getUserProfile().editName("Spyridon"));
+        // System.out.println(AppManager.getUserProfile().editSurname("Tsalikis"));
+        AppManager.logOut();
+
+        // to do activity error
         // https://readinghood.tk:8443/posts/upvote?post_id=2 changes the reputation of the user correctly but does not
         // changes the number of votes of the post
     }

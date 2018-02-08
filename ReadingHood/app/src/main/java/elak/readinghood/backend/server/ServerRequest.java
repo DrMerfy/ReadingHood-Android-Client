@@ -166,10 +166,33 @@ public class ServerRequest {
 
     public static Activity getActivity(int id) {
         ArrayList<String> info = new ArrayList<>();
-        info.add(getPosts(1, "posts/upvoted?profile_id=" + Integer.toString(id)).getPost(0).getText());
-        info.add(getPosts(1, "posts/downvoted?profile_id=" + Integer.toString(id)).getPost(0).getText());
-        info.add(getThreads("threads/created?profile_id=" + Integer.toString(id)).getThread(0).getTitle());
-        info.add(getPosts(1, "posts/created?profile_id=" + Integer.toString(id)).getPost(0).getText());
+        Posts upVotedPosts = getPosts(1, "posts/upvoted?profile_id=" + Integer.toString(id));
+        if (upVotedPosts.size() != 0) {
+            info.add(upVotedPosts.getPost(0).getText());
+        } else {
+            info.add("");
+        }
+
+        Posts downVotedPosts = getPosts(1, "posts/downvoted?profile_id=" + Integer.toString(id));
+        if (downVotedPosts.size() != 0) {
+            info.add(downVotedPosts.getPost(0).getText());
+        } else {
+            info.add("");
+        }
+
+        Posts createdPosts = getPosts(1, "posts/created?profile_id=" + Integer.toString(id));
+        if (createdPosts.size() != 0) {
+            info.add(createdPosts.getPost(0).getText());
+        } else {
+            info.add("");
+        }
+
+        Threads createdThreads = getThreads("threads/created?profile_id=" + Integer.toString(id));
+        if (createdThreads.size() != 0) {
+            info.add(createdThreads.getThread(0).getTitle());
+        } else {
+            info.add("");
+        }
         return new Activity(info.get(0), info.get(1), info.get(2), info.get(3));
     }
 
@@ -183,9 +206,7 @@ public class ServerRequest {
         ArrayList<Thread> threads = new ArrayList<>();
         try {
             String url = "https://readinghood.tk:8443/" + option;
-            System.out.println(url);
             String jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            // System.out.println(jsonResult);
             try {
                 JSONArray jsonThreads = new JSONArray(jsonResult);
                 for (int i = 0; i < jsonThreads.length(); i++) {
@@ -214,7 +235,6 @@ public class ServerRequest {
 
                     } catch (JSONException J) {
                     }
-                    System.out.println();
                 }
                 return new Threads(threads);
             } catch (JSONException J) {
