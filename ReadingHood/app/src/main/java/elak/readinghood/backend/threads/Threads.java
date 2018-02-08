@@ -55,4 +55,11 @@ public class Threads {
     public int size() {
         return threads.size();
     }
+
+    /**
+     * @return a boolean value which indicates if the threads are empty
+     */
+    public boolean isEmpty() {
+        return threads.isEmpty();
+    }
 }

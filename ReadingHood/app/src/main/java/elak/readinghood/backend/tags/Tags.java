@@ -33,4 +33,11 @@ public class Tags {
     public int size() {
         return tags.size();
     }
+
+    /**
+     * @return a boolean value which indicates if the tags are empty
+     */
+    public boolean isEmpty() {
+        return tags.isEmpty();
+    }
 }
