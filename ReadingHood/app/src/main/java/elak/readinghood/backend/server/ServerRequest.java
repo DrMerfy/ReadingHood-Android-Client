@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -32,7 +33,7 @@ public class ServerRequest {
     public static boolean existenceOfEmail(String email) {
         try {
             String url = "https://readinghood.tk:8443/accounts/searchEmail?email=";
-            String jsonResult = ConnectionWithServer.sendSimpleRequest(url + email, "GET");
+            String jsonResult = ConnectionWithServer.sendSimpleRequest(url + URLEncoder.encode(email, "UTF-8"), "GET");
             try {
                 JSONObject jsonObject = new JSONObject(jsonResult);
                 String jsonEmail = jsonObject.getString("email");
@@ -59,8 +60,7 @@ public class ServerRequest {
      */
     public static boolean checkPasswordForEmail(String email, String password) {
         try {
-            String url = "https://readinghood.tk:8443/verify?email=" + email +
-                    "&password=" + password;
+            String url = "https://readinghood.tk:8443/verify";
             ConnectionWithServer.sendAuthenticatedRequest(url, email, password, "GET");
             return true;
         } catch (IOException e) {
@@ -79,54 +79,11 @@ public class ServerRequest {
     public static UserProfile getUserProfile(String email, String password) {
         try {
             String url = "https://readinghood.tk:8443/accounts/searchEmail?email=";
-            String jsonResult = ConnectionWithServer.sendSimpleRequest(url + email, "GET");
+            String jsonResult = ConnectionWithServer.sendSimpleRequest(url + URLEncoder.encode(email, "UTF-8"), "GET");
             try {
-                JSONObject jsonObject = new JSONObject(jsonResult);
+                Profile profile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
 
-                int jsonId = jsonObject.getJSONObject("profile").getInt("id");
-
-                String jsonName = "";
-                try {
-                    jsonName = jsonObject.getJSONObject("profile").getString("name");
-                    if (jsonName == null) {
-                        jsonName = "";
-                    }
-                } catch (JSONException J) {
-                }
-
-                String jsonSurname = "";
-                try {
-                    jsonSurname = jsonObject.getJSONObject("profile").getString("surname");
-                    if (jsonSurname == null) {
-                        jsonSurname = "";
-                    }
-                } catch (JSONException J) {
-                }
-
-                String jsonUsername = "";
-                try {
-                    jsonUsername = jsonObject.getJSONObject("profile").getString("username");
-                } catch (JSONException J) {
-
-                }
-
-                String jsonDepartment = "";
-                try {
-                    jsonDepartment = jsonObject.getJSONObject("profile").getString("department");
-
-                    if (jsonDepartment == null) {
-                        jsonDepartment = "";
-                    }
-                } catch (JSONException J) {
-                }
-
-                int jasonReputation = 0;
-                try {
-                    jasonReputation = jsonObject.getJSONObject("profile").getInt("votes");
-                } catch (JSONException J) {
-                }
-
-                return new UserProfile(jsonId, jasonReputation, email, jsonUsername, password, jsonName, jsonSurname, jsonDepartment);
+                return new UserProfile(profile, email, password);
             } catch (JSONException J) {
                 System.out.println("wrong json");
                 return new UserProfile();
@@ -160,7 +117,7 @@ public class ServerRequest {
      * @return the latest post of a thread
      */
     public static Post getLatestPostOfAThread(int id) {
-        Posts posts = getPosts(1, "threads/postsOfThread?id=" + id);
+        Posts posts = getPosts(1, "posts/byThread?thread_id=" + Integer.toString(id));
         return posts.getPost(posts.size() - 1);
     }
 
@@ -215,7 +172,9 @@ public class ServerRequest {
 
                         //getting id
                         int id = thread.getInt("id");
+
                         //getting title
+
                         String title = thread.getString("title");
                         //getting views
                         int views = thread.getInt("views");
@@ -238,11 +197,11 @@ public class ServerRequest {
                 }
                 return new Threads(threads);
             } catch (JSONException J) {
-                return new Threads();
+                return new Threads(threads);
             }
         } catch (IOException e) {
             // todo error dialog
-            return new Threads();
+            return new Threads(threads);
         }
     }
 
@@ -286,13 +245,13 @@ public class ServerRequest {
 
                     tags.add(new Tag(id, usages, tagName));
                 } catch (JSONException J) {
-
+                    return new Tags(tags);
                 }
             }
-
+            return new Tags(tags);
         } catch (JSONException J) {
+            return new Tags(tags);
         }
-        return new Tags(tags);
     }
 
     /**
@@ -322,7 +281,6 @@ public class ServerRequest {
             JSONArray jsonPosts = new JSONArray(jsonResult);
             for (int i = 0; i < jsonPosts.length(); i++) {
                 JSONObject jsonPost = jsonPosts.getJSONObject(i);
-
                 // id of post
                 int id = 0;
                 try {
@@ -343,7 +301,7 @@ public class ServerRequest {
                 // number of votes of post
                 int numberOfVotes = 0;
                 try {
-                    jsonPost.getInt("numberOfVotes");
+                    numberOfVotes = jsonPost.getInt("numberOfVotes");
                 } catch (JSONException J) {
                 }
 
@@ -377,7 +335,6 @@ public class ServerRequest {
                 for (int j = 0; j < jsonDownVoters.length(); j++) {
                     downVoters.add(getProfile(jsonDownVoters.get(j).toString()));
                 }
-
                 posts.add(new Post(id, numberOfVotes, text, author, upVoters, downVoters));
             }
         } catch (JSONException J) {

@@ -32,33 +32,37 @@ class ConnectionWithServer {
      * @throws MalformedURLException exception 1
      * @throws IOException           exception 2
      */
-    protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws MalformedURLException, IOException {
+    protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws IOException {
+        try {
 
-        System.setOut(noOutputStream); // Silence all outputs
+            System.setOut(noOutputStream); // Silence all outputs
 
-        String authString = email + ":" + password;
-        String authStringEncrypted = new String(Base64.getEncoder().encode(authString.getBytes()));
+            String authString = email + ":" + password;
+            String authStringEncrypted = new String(Base64.getEncoder().encode(authString.getBytes()));
 
-        // Send request
-        URL obj = new URL(link);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-        con.setRequestMethod(requestMethod);
-        con.setRequestProperty("User-Agent", "RH-Client");
-        con.setRequestProperty("Authorization", "Basic " + authStringEncrypted);
+            // Send request
+            URL obj = new URL(link);
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            con.setRequestMethod(requestMethod);
+            con.setRequestProperty("User-Agent", "RH-Client");
+            con.setRequestProperty("Authorization", "Basic " + authStringEncrypted);
 
+            // Get request response
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
 
-        // Get request response
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            System.setOut(originalStream); // Desilence all outputs
+
+            return response.toString();
+        } catch (IOException e) {
+            System.setOut(originalStream);
+            throw new IOException();
         }
-        in.close();
-
-        System.setOut(originalStream); // Desilence all outputs
-
-        return response.toString();
     }
 
     /**
@@ -70,27 +74,31 @@ class ConnectionWithServer {
      * @throws MalformedURLException exception 1
      * @throws IOException           exception 2
      */
-    protected static String sendSimpleRequest(String link, String requestMethod) throws MalformedURLException, IOException {
+    protected static String sendSimpleRequest(String link, String requestMethod) throws IOException {
+        try {
+            System.setOut(noOutputStream); // Silence all outputs
 
-        System.setOut(noOutputStream); // Silence all outputs
+            // Send request
+            URL obj = new URL(link);
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            con.setRequestMethod(requestMethod);
+            con.setRequestProperty("User-Agent", "RH-Client");
 
-        // Send request
-        URL obj = new URL(link);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-        con.setRequestMethod(requestMethod);
-        con.setRequestProperty("User-Agent", "RH-Client");
+            // Get request response
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
 
-        // Get request response
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            System.setOut(originalStream); // Desilence all outputs
+
+            return response.toString();
+        } catch (IOException e) {
+            System.setOut(originalStream);
+            throw new IOException();
         }
-        in.close();
-
-        System.setOut(originalStream); // Desilence all outputs
-
-        return response.toString();
     }
 }

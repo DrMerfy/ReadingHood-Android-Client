@@ -19,24 +19,21 @@ public class UserProfile extends Profile {
     /**
      * trivial contructor
      *
-     * @param id         the id of the user
-     * @param reputation the reputation of the user
-     * @param email      the user given email
-     * @param username   the user given username
-     * @param password   the user given password
-     * @param name       the user given name
-     * @param surname    the user given surname
-     * @param department the user given department
+     * @param profile  the profile of the user
+     * @param email    the user given email
+     * @param password the user given password
      */
-    public UserProfile(int id, int reputation, String email, String username, String password, String name, String surname, String department) {
-        this.id = id;
-        this.reputation = reputation;
+    public UserProfile(Profile profile, String email, String password) {
+        this.id = profile.id;
+        this.reputation = profile.reputation;
+
+        this.username = profile.username;
+        this.name = profile.name;
+        this.surname = profile.surname;
+        this.department = profile.department;
         this.email = email;
-        this.username = username;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.department = department;
+
     }
 
     /**

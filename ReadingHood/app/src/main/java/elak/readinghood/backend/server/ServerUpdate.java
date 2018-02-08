@@ -92,7 +92,6 @@ public class ServerUpdate {
             for (int i = 1; i < tags.size(); i++) {
                 restOfUrl = restOfUrl + "," + URLEncoder.encode(new ArrayList<>(tags).get(i), "UTF-8");
             }
-            System.out.println(url + restOfUrl);
             ConnectionWithServer.sendAuthenticatedRequest(url + restOfUrl, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
@@ -110,7 +109,7 @@ public class ServerUpdate {
      */
     public static boolean answerThread(int id, String text) {
         try {
-            String url = "https://readinghood.tk:8443/posts/new?thread_id=0&text=" + URLEncoder.encode(text, "UTF-8");
+            String url = "https://readinghood.tk:8443/posts/new?thread_id=" + Integer.toString(id) + "&text=" + URLEncoder.encode(text, "UTF-8");
             ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
@@ -127,7 +126,7 @@ public class ServerUpdate {
      */
     public static boolean seeThread(int id) {
         try {
-            String url = "https://readinghood.tk:8443/profiles/threads/viewed?id=" + Integer.toString(id);
+            String url = "https://readinghood.tk:8443/threads/viewed?id=" + Integer.toString(id);
             ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {

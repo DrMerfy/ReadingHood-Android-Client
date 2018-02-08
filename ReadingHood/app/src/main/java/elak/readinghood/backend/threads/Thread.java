@@ -132,6 +132,10 @@ public class Thread {
      * @return the latest added answer post
      */
     public Post getTheLatestAddedPost() {
-        return answerPosts.getPost(answerPosts.size() - 1);
+        if (answerPosts.size() == 1) {
+            return answerPosts.getPost(0);
+        } else {
+            return answerPosts.getPost(answerPosts.size() - 1);
+        }
     }
 }

@@ -83,27 +83,41 @@ public class Profile {
         return reputation;
     }
 
-    public Activity getActivity() {
+    /**
+     * This functions sets the Activity of the user.
+     * You use the function every time you wanna se the profile of somebody.
+     */
+    public void setActivity() {
         activity = ServerRequest.getActivity(id);
+    }
+
+    /**
+     * This function lets you get the activity of the user.
+     *
+     * @return the activity of the user
+     */
+    public Activity getActivity() {
         return activity;
     }
 
     @Override
     public boolean equals(Object profile) {
         if (profile == null) {
+            System.out.println("makis");
             return false;
         }
         if (!Profile.class.isAssignableFrom(profile.getClass())) {
+            System.out.println("takis");
             return false;
         }
 
         final Profile other = (Profile) profile;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
+
         if (this.getId() != other.getId()) {
+            //System.out.println("katsavakis");
             return false;
         }
+
         return true;
     }
 }

@@ -95,6 +95,7 @@ public class Post {
         if (AppManager.getUserProfile().equals(author)) {
             return false;
         }
+
         for (Profile profile : upVoters) {
             if (AppManager.getUserProfile().equals(profile)) {
                 return false;
@@ -129,6 +130,7 @@ public class Post {
     public boolean upVoteThisPost() {
         if (ServerUpdate.upVotePost(id)) {
             upVoters.add(AppManager.getUserProfile());
+            refreshNumberOfVotes();
             return true;
         } else {
             return false;
@@ -143,10 +145,17 @@ public class Post {
     public boolean downVoteThisPost() {
         if (ServerUpdate.downVotePost(id)) {
             downVoters.add(AppManager.getUserProfile());
+            refreshNumberOfVotes();
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * This function refreshed the number of votes of a user
+     */
+    private void refreshNumberOfVotes() {
+        this.numberOfVotes = upVoters.size() - downVoters.size();
+    }
 }

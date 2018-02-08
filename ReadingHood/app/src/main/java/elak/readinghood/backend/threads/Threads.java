@@ -42,9 +42,11 @@ public class Threads {
      * @return the thread that you wanna see
      */
     public Thread seeThread(int number) {
-        ServerUpdate.seeThread(threads.get(number).getId());
-        threads.get(number).increaseViews();
-        return threads.get(number);
+        Thread chosenThread = getThread(number);
+        ServerUpdate.seeThread(chosenThread.getId());
+        chosenThread.increaseViews();
+
+        return chosenThread;
     }
 
     /**
