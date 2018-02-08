@@ -22,7 +22,7 @@ public class Main {
 
 
         // example of login
-        // System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
+        System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
         // System.out.println(AppManager.getStartUpManager().login("melissourgos@hotmail.com", "a1234567"));
 
         AppManager.setUserProfile();

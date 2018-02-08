@@ -113,7 +113,10 @@ public class Thread {
         }
 
         if (ServerUpdate.answerThread(id, text)) {
-            answerPosts.addPost(ServerRequest.getLatestPostOfAThread(id));
+            Post post = ServerRequest.getLatestPostOfAThread(id);
+            if (post != null) {
+                answerPosts.addPost(post);
+            }
             return "Success";
         } else {
             return "Error connecting with server";
@@ -129,6 +132,8 @@ public class Thread {
     }
 
     /**
+     * You ONLY USE THIS FUNCTION IF YOU HAVE ADDED A POST
+     *
      * @return the latest added answer post
      */
     public Post getTheLatestAddedPost() {

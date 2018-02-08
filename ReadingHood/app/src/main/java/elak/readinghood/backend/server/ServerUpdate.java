@@ -22,11 +22,11 @@ public class ServerUpdate {
      */
     public static boolean createUser(String email, String username, String password, String department) {
         try {
-            String url = "https://readinghood.tk:8443/register?username=" + username +
-                    "&email=" + email +
+            String url = "https://readinghood.tk:8443/register?username=" + URLEncoder.encode(username, "UTF-8") +
+                    "&email=" + URLEncoder.encode(email, "UTF-8") +
                     "&password=" + password;
             if (!department.isEmpty()) {
-                url = url + "&department=" + department;
+                url = url + "&department=" + URLEncoder.encode(department, "UTF-8");
             }
             ConnectionWithServer.sendSimpleRequest(url, "GET");
             return true;

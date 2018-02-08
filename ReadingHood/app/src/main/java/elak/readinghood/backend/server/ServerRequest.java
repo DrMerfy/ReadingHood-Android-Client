@@ -8,8 +8,8 @@ import elak.readinghood.backend.tags.Tags;
 import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.profiles.Activity;
 import elak.readinghood.backend.profiles.UserProfile;
-import elak.readinghood.backend.threads.*;
 import elak.readinghood.backend.threads.Thread;
+import elak.readinghood.backend.threads.Threads;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,8 +32,8 @@ public class ServerRequest {
      */
     public static boolean existenceOfEmail(String email) {
         try {
-            String url = "https://readinghood.tk:8443/accounts/searchEmail?email=";
-            String jsonResult = ConnectionWithServer.sendSimpleRequest(url + URLEncoder.encode(email, "UTF-8"), "GET");
+            String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
+            String jsonResult = ConnectionWithServer.sendSimpleRequest(url, "GET");
             try {
                 JSONObject jsonObject = new JSONObject(jsonResult);
                 String jsonEmail = jsonObject.getString("email");
@@ -78,10 +78,14 @@ public class ServerRequest {
      */
     public static UserProfile getUserProfile(String email, String password) {
         try {
-            String url = "https://readinghood.tk:8443/accounts/searchEmail?email=";
-            String jsonResult = ConnectionWithServer.sendSimpleRequest(url + URLEncoder.encode(email, "UTF-8"), "GET");
+            String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
+            String jsonResult = ConnectionWithServer.sendSimpleRequest(url, "GET");
             try {
-                Profile profile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
+                Profile profile = new Profile();
+                Profile testProfile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
+                if (testProfile != null) {
+                    profile = testProfile;
+                }
 
                 return new UserProfile(profile, email, password);
             } catch (JSONException J) {
@@ -118,7 +122,15 @@ public class ServerRequest {
      */
     public static Post getLatestPostOfAThread(int id) {
         Posts posts = getPosts(1, "posts/byThread?thread_id=" + Integer.toString(id));
-        return posts.getPost(posts.size() - 1);
+
+        if (posts.size() > 0) {
+            if (posts.size() == 0) {
+                return posts.getPost(0);
+            } else {
+                return posts.getPost(posts.size() - 1);
+            }
+        }
+        return new Post();
     }
 
     public static Activity getActivity(int id) {
@@ -308,7 +320,10 @@ public class ServerRequest {
                 // author of the post
                 Profile author = new Profile();
                 try {
-                    author = getProfile(jsonPost.getJSONObject("author").toString());
+                    Profile profile = getProfile(jsonPost.getJSONObject("author").toString());
+                    if (profile != null) {
+                        author = profile;
+                    }
                 } catch (JSONException J) {
                 }
 
@@ -322,6 +337,10 @@ public class ServerRequest {
                 ArrayList<Profile> upVoters = new ArrayList<>();
                 for (int j = 0; j < jsonUpVoters.length(); j++) {
                     upVoters.add(getProfile(jsonUpVoters.get(j).toString()));
+                    Profile profile = getProfile(jsonUpVoters.get(j).toString());
+                    if (profile != null) {
+                        upVoters.add(getProfile(jsonUpVoters.get(j).toString()));
+                    }
                 }
 
                 // downVoters of the post
@@ -333,13 +352,17 @@ public class ServerRequest {
 
                 ArrayList<Profile> downVoters = new ArrayList<>();
                 for (int j = 0; j < jsonDownVoters.length(); j++) {
-                    downVoters.add(getProfile(jsonDownVoters.get(j).toString()));
+                    Profile profile = getProfile(jsonDownVoters.get(j).toString());
+                    if (profile != null) {
+                        downVoters.add(getProfile(jsonDownVoters.get(j).toString()));
+                    }
                 }
                 posts.add(new Post(id, numberOfVotes, text, author, upVoters, downVoters));
             }
+            return new Posts(posts);
         } catch (JSONException J) {
+            return new Posts(posts);
         }
-        return new Posts(posts);
     }
 
     /**
@@ -349,7 +372,6 @@ public class ServerRequest {
      * @return the extracted profile
      */
     private static Profile getProfile(String option) {
-        //*
         try {
             JSONObject jsonProfile = new JSONObject(option);
 
