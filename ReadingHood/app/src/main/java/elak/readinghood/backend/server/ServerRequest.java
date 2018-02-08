@@ -33,7 +33,7 @@ public class ServerRequest {
     public static boolean existenceOfEmail(String email) {
         try {
             String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
-            String jsonResult = ConnectionWithServer.sendSimpleRequest(url, "GET");
+            String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
             try {
                 JSONObject jsonObject = new JSONObject(jsonResult);
                 String jsonEmail = jsonObject.getString("email");
@@ -61,7 +61,7 @@ public class ServerRequest {
     public static boolean checkPasswordForEmail(String email, String password) {
         try {
             String url = "https://readinghood.tk:8443/verify";
-            ConnectionWithServer.sendAuthenticatedRequest(url, email, password, "GET");
+            ServerConnection.sendAuthenticatedRequest(url, email, password, "GET");
             return true;
         } catch (IOException e) {
             return false;
@@ -79,7 +79,7 @@ public class ServerRequest {
     public static UserProfile getUserProfile(String email, String password) {
         try {
             String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
-            String jsonResult = ConnectionWithServer.sendSimpleRequest(url, "GET");
+            String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
             try {
                 Profile profile = new Profile();
                 Profile testProfile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
@@ -107,7 +107,7 @@ public class ServerRequest {
     public static int getReputation(int id) {
         try {
             String url = "https://readinghood.tk:8443/profiles/votes?profile_id=" + Integer.toString(id);
-            return Integer.parseInt(ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET"));
+            return Integer.parseInt(ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET"));
         } catch (IOException e) {
             // todo error dialog
             return 0;
@@ -175,7 +175,7 @@ public class ServerRequest {
         ArrayList<Thread> threads = new ArrayList<>();
         try {
             String url = "https://readinghood.tk:8443/" + option;
-            String jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            String jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             try {
                 JSONArray jsonThreads = new JSONArray(jsonResult);
                 for (int i = 0; i < jsonThreads.length(); i++) {
@@ -232,7 +232,7 @@ public class ServerRequest {
         if (way == 1) {
             try {
                 String url = "https://readinghood.tk:8443/tags/" + option;
-                jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+                jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             } catch (IOException e) {
                 // todo error dialog
                 return new Tags();
@@ -281,7 +281,7 @@ public class ServerRequest {
         if (way == 1) {
             try {
                 String url = "https://readinghood.tk:8443/" + option;
-                jsonResult = ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+                jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             } catch (IOException e) {
                 // todo error dialog
                 return new Posts();
@@ -417,7 +417,6 @@ public class ServerRequest {
             String jsonDepartment = "";
             try {
                 jsonDepartment = jsonProfile.getString("department");
-
                 if (jsonDepartment == null) {
                     jsonDepartment = "";
                 }

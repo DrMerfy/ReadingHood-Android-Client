@@ -140,7 +140,6 @@ public class Main {
         System.out.println(chosenThread.getTheLatestAddedPost());
         //*/
 
-
         // Settings panel
         // System.out.println(AppManager.getUserProfile().editName("Spyridon"));
         // System.out.println(AppManager.getUserProfile().editSurname("Tsalikis"));

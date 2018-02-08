@@ -24,11 +24,11 @@ public class ServerUpdate {
         try {
             String url = "https://readinghood.tk:8443/register?username=" + URLEncoder.encode(username, "UTF-8") +
                     "&email=" + URLEncoder.encode(email, "UTF-8") +
-                    "&password=" + password;
+                    "&password=" + URLEncoder.encode(email, "UTF-8");
             if (!department.isEmpty()) {
                 url = url + "&department=" + URLEncoder.encode(department, "UTF-8");
             }
-            ConnectionWithServer.sendSimpleRequest(url, "GET");
+            ServerConnection.sendSimpleRequest(url, "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -46,7 +46,7 @@ public class ServerUpdate {
 
         try {
             String url = "https://readinghood.tk:8443/profiles/editName?name=" + URLEncoder.encode(newName, "UTF-8");
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -64,7 +64,7 @@ public class ServerUpdate {
     public static boolean editSurname(String newSurname) {
         try {
             String url = "https://readinghood.tk:8443/profiles/editSurname?surname=" + URLEncoder.encode(newSurname, "UTF-8");
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -92,7 +92,7 @@ public class ServerUpdate {
             for (int i = 1; i < tags.size(); i++) {
                 restOfUrl = restOfUrl + "," + URLEncoder.encode(new ArrayList<>(tags).get(i), "UTF-8");
             }
-            ConnectionWithServer.sendAuthenticatedRequest(url + restOfUrl, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url + restOfUrl, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -110,7 +110,7 @@ public class ServerUpdate {
     public static boolean answerThread(int id, String text) {
         try {
             String url = "https://readinghood.tk:8443/posts/new?thread_id=" + Integer.toString(id) + "&text=" + URLEncoder.encode(text, "UTF-8");
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -127,7 +127,7 @@ public class ServerUpdate {
     public static boolean seeThread(int id) {
         try {
             String url = "https://readinghood.tk:8443/threads/viewed?id=" + Integer.toString(id);
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -144,7 +144,7 @@ public class ServerUpdate {
     public static boolean addThreadToFavorites(int id) {
         try {
             String url = "https://readinghood.tk:8443/threads/favorite?thread_id=" + Integer.toString(id);
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -161,7 +161,7 @@ public class ServerUpdate {
     public static boolean upVotePost(int id) {
         try {
             String url = "https://readinghood.tk:8443/posts/upvote?post_id=" + Integer.toString(id);
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog
@@ -178,7 +178,7 @@ public class ServerUpdate {
     public static boolean downVotePost(int id) {
         try {
             String url = "https://readinghood.tk:8443/posts/downvote?post_id=" + Integer.toString(id);
-            ConnectionWithServer.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
+            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             return true;
         } catch (IOException e) {
             // todo error dialog

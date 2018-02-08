@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * @author Spiros
  */
-class ConnectionWithServer {
+class ServerConnection {
     private static PrintStream originalStream = System.out;
     private static PrintStream noOutputStream = new PrintStream(new OutputStream() {
         @Override

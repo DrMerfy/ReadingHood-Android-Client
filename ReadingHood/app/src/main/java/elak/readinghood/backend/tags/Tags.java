@@ -37,7 +37,5 @@ public class Tags {
     /**
      * @return a boolean value which indicates if the tags are empty
      */
-    public boolean isEmpty() {
-        return tags.isEmpty();
-    }
+    public boolean isEmpty() {return tags.isEmpty();}
 }
