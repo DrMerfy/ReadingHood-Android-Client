@@ -1,6 +1,8 @@
 package elak.readinghood.backend.profiles;
 
+import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.server.ServerRequest;
+import elak.readinghood.backend.threads.Threads;
 
 /**
  * @author Spiros
@@ -81,6 +83,16 @@ public class Profile {
     public int getReputation() {
         this.reputation = ServerRequest.getReputation(id);
         return reputation;
+    }
+
+    /**
+     * This function returns the threads of that have been created from the connected user.
+     * Possible place to be used : My profile.
+     *
+     * @return the threads of the connected user
+     */
+    public Threads getTheThreadsOfThisProfile() {
+        return AppManager.getThreads("threads/created?profile_id=" + Integer.toString(id));
     }
 
     /**

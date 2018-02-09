@@ -154,16 +154,6 @@ public class AppManager {
         }
     }
 
-    /**
-     * This function returns the threads of that have been created from the connected user.
-     * Possible place to be used : My profile.
-     *
-     * @return the threads of the connected user
-     */
-    public static Threads getTheThreadsOfTheUser() {
-        return getThreads("threads/created?profile_id=" + Integer.toString(AppManager.getUserProfile().getId()));
-    }
-
     // Tags related functions
 
     /**
@@ -205,13 +195,14 @@ public class AppManager {
     // Helping Functions
 
     /**
+     * Never Use THIS FUNCTION AS A FRONT END
      * Helping function.
      * Returns threads according to the option asked.
      *
      * @param option the option that is asked
      * @return the threads that have been asked to be delivered
      */
-    private static Threads getThreads(String option) {
+    public static Threads getThreads(String option) {
         return ServerRequest.getThreads(option);
     }
 

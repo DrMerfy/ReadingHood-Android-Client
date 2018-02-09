@@ -2,6 +2,7 @@ package elak.readinghood.backend;
 
 import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.posts.Post;
+import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.tags.Tags;
 import elak.readinghood.backend.threads.Thread;
 import elak.readinghood.backend.threads.Threads;
@@ -30,7 +31,7 @@ public class Main {
 
         Threads threads;
 
-        // Profile panel
+        // Profile panel of the user
         // System.out.println(AppManager.getUserProfile().getUsername());
         // System.out.println(AppManager.getUserProfile().getName());
         // System.out.println(AppManager.getUserProfile().getSurname());
@@ -41,7 +42,21 @@ public class Main {
         // System.out.println(AppManager.getUserProfile().getActivity().getLatestDownVotedPostText());
         // System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedPostText());
         // System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedThreadTitle());
-        // threads = AppManager.getTheThreadsOfTheUser(); // this will be click button that will return threads
+        // threads = AppManager.getUserProfile().getTheThreadsOfThisProfile(); // this will be click button that will return threads
+
+        // profile panel in general, when you have a profile
+        // Profile profile = new Profile();
+        // System.out.println(profile.getUsername());
+        // System.out.println(profile.getName());
+        // System.out.println(profile.getSurname());
+        // System.out.println(profile.getDepartment());
+        // System.out.println(profile.getReputation());
+        // profile.setActivity();
+        // System.out.println(profile.getActivity().getLatestUpVotedPostText());
+        // System.out.println(profile.getActivity().getLatestDownVotedPostText());
+        // System.out.println(profile.getActivity().getLatestCreatedPostText());
+        // System.out.println(profile.getActivity().getLatestCreatedThreadTitle());
+        // threads = profile.getTheThreadsOfThisProfile(); // this will be click button that will return threads
 
         // Thread creation Example
         // HashSet<String> tagsStrins = new HashSet<>();
