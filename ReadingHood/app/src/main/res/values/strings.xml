@@ -2,12 +2,20 @@
     <string name="app_name">ReadingHood</string>
     <string name="title_activity_login">LoginActivity</string>
 
-    <string-array name="universities_names">
+    <string-array name="departments_names">
 
-        <item>University Of Aristotle</item>
-        <item>University Of Macedonia</item>
-        <item>University of Patras</item>
-        <item>National and Kapodistrian University of Athens</item>
+        <item>Computer Science</item>
+        <item>Law</item>
+        <item>Philosophy</item>
+        <item>Theology</item>
+        <item>English Language and Literature</item>
+        <item>History and Archeology</item>
+        <item>Philology</item>
+        <item>Psychology</item>
+        <item>Mathematics</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Economics</item>
 
     </string-array>
 

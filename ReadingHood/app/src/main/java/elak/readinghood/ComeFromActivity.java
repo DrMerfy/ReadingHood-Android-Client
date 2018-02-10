@@ -19,7 +19,7 @@ public class ComeFromActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comefrom);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinner = (Spinner)findViewById(R.id.spinner);
-        adapter = ArrayAdapter.createFromResource(this,R.array.universities_names,android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this,R.array.departments_names,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
