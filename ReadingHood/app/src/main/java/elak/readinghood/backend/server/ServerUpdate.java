@@ -18,21 +18,19 @@ public class ServerUpdate {
      * @param username   is the user given username
      * @param password   is the user given  password
      * @param department is the user given department
-     * @return a boolean value which indicates if the user was created succefully
+     * @throws IOException Can not Connect to server
      */
-    public static boolean createUser(String email, String username, String password, String department) {
+    public static void createUser(String email, String username, String password, String department) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/register?username=" + URLEncoder.encode(username, "UTF-8") +
                     "&email=" + URLEncoder.encode(email, "UTF-8") +
-                    "&password=" + URLEncoder.encode(email, "UTF-8");
+                    "&password=" + URLEncoder.encode(password, "UTF-8");
             if (!department.isEmpty()) {
                 url = url + "&department=" + URLEncoder.encode(department, "UTF-8");
             }
             ServerConnection.sendSimpleRequest(url, "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
@@ -40,35 +38,30 @@ public class ServerUpdate {
      * This function edits the name of the user.
      *
      * @param newName the user given new name
-     * @return a boolean value which indicates if the name was updates successfully
+     * @throws IOException Can not Connect to server
      */
-    public static boolean editName(String newName) {
+    public static void editName(String newName) throws IOException {
 
         try {
             String url = "https://readinghood.tk:8443/profiles/editName?name=" + URLEncoder.encode(newName, "UTF-8");
             ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
-
     }
 
     /**
      * This function edits the surname of the user.
      *
      * @param newSurname the user given new surname
-     * @return a boolean value which indicates if the surname was updates successfully
+     * @throws IOException Can not Connect to server
      */
-    public static boolean editSurname(String newSurname) {
+    public static void editSurname(String newSurname) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/profiles/editSurname?surname=" + URLEncoder.encode(newSurname, "UTF-8");
             ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
@@ -79,9 +72,9 @@ public class ServerUpdate {
      *
      * @param title is the title of the thread
      * @param tags  are the tags of the thread
-     * @return a boolean value which indicates if the creation was successful or not
+     * @throws IOException Can not Connect to server
      */
-    public static boolean createThread(String title, String text, HashSet<String> tags) {
+    public static void createThread(String title, String text, HashSet<String> tags) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/threads/new?title=";
             String restOfUrl = URLEncoder.encode(title, "UTF-8") + "&text=" + URLEncoder.encode(text, "UTF-8");
@@ -93,10 +86,8 @@ public class ServerUpdate {
                 restOfUrl = restOfUrl + "," + URLEncoder.encode(new ArrayList<>(tags).get(i), "UTF-8");
             }
             ServerConnection.sendAuthenticatedRequest(url + restOfUrl, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
@@ -105,84 +96,59 @@ public class ServerUpdate {
      *
      * @param id   is the id of the thread that is gonna be answered
      * @param text is the text of the post that the user is gonna write
-     * @return a boolean value which indicates if the adding was done successfully
+     * @throws IOException Can not Connect to server
      */
-    public static boolean answerThread(int id, String text) {
+    public static void answerThread(int id, String text) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/posts/new?thread_id=" + Integer.toString(id) + "&text=" + URLEncoder.encode(text, "UTF-8");
             ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
     /**
-     * This function updates the view of a specific Thread.
+     * This function updates the views of a specific Thread.
      *
      * @param id is the id of the thread you wanna see
-     * @return a boolean value which indicates if the increase of views was successful
+     * @throws IOException Can not Connect to server
      */
-    public static boolean seeThread(int id) {
+    public static void seeThread(int id) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/threads/viewed?id=" + Integer.toString(id);
             ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
     /**
-     * This function add this thread to the favorites of the user.
-     *
-     * @param id is the id of the thread you wanna see
-     * @return a boolean value which indicates if the addition to the favorite threads was successful
-     */
-    public static boolean addThreadToFavorites(int id) {
-        try {
-            String url = "https://readinghood.tk:8443/threads/favorite?thread_id=" + Integer.toString(id);
-            ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
-        } catch (IOException e) {
-            // todo error dialog
-            return false;
-        }
-    }
-
-    /**
-     * This function upVotes the post with id  = id.
+     * This function upVotes the post with the given id.
      *
      * @param id is the id of the post that is going to be upVoted
-     * @return a boolean value which indicates if the upVote was Successful or not
+     * @throws IOException Can not Connect to server
      */
-    public static boolean upVotePost(int id) {
+    public static void upVotePost(int id) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/posts/upvote?post_id=" + Integer.toString(id);
             ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
     /**
-     * This function downVotes the post with id  = id.
+     * This function downVotes the post with the given id.
      *
      * @param id is the id of the post that is going to be downVoted
-     * @return a boolean value which indicates if the downVote was Successful or not
+     * @throws IOException Can not Connect to server
      */
-    public static boolean downVotePost(int id) {
+    public static void downVotePost(int id) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/posts/downvote?post_id=" + Integer.toString(id);
             ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
-            return true;
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 }

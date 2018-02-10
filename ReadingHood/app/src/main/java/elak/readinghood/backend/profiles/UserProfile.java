@@ -2,6 +2,8 @@ package elak.readinghood.backend.profiles;
 
 import elak.readinghood.backend.server.ServerUpdate;
 
+import java.io.IOException;
+
 /**
  * @author Spiros
  */
@@ -37,6 +39,15 @@ public class UserProfile extends Profile {
     /**
      * YOU NEVER USE THIS FUNCTION as front end developer.
      *
+     * @return the id of the UserProfile
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * YOU NEVER USE THIS FUNCTION as front end developer.
+     *
      * @return the email of the user
      */
     public String getEmail() {
@@ -56,44 +67,38 @@ public class UserProfile extends Profile {
      * This function edits the name of the user.
      * <p>
      * Error0 = "Success" (which means that the name was changed successfully)
-     * Error1 = "Error connecting with server"
      * Error404 = "Fill every field" (which means that the user must fill all the given fields)
      *
      * @param newName the user given newName
      * @return an error text
+     * @throws IOException Can not Connect to server
      */
-    public String editName(String newName) {
+    public String editName(String newName) throws IOException {
         if (newName.isEmpty()) {
             return "Fill every field";
         }
 
-        if (ServerUpdate.editName(newName)) {
-            this.name = newName;
-            return "Success";
-        } else {
-            return "Error connecting with server";
-        }
+        ServerUpdate.editName(newName);
+        this.name = newName;
+        return "Success";
     }
 
     /**
      * This function edits the surname of the user.
      * <p>
      * Error0 = "Success" (which means that the surname was changed successfully)
-     * Error1 = "Error connecting with server"
      * Error404 = "Fill every field" (which means that the user must fill all the given fields)
      *
      * @param newSurname the user given newName
      * @return an error text
+     * @throws IOException Can not Connect to server
      */
-    public String editSurname(String newSurname) {
+    public String editSurname(String newSurname) throws IOException {
         if (newSurname.isEmpty()) {
             return "Fill every field";
         }
-        if (ServerUpdate.editSurname(newSurname)) {
-            this.surname = newSurname;
-            return "Success";
-        } else {
-            return "Error connecting with server";
-        }
+        ServerUpdate.editSurname(newSurname);
+        this.surname = newSurname;
+        return "Success";
     }
 }

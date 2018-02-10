@@ -1,8 +1,9 @@
 package elak.readinghood.backend.profiles;
 
-import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.server.ServerRequest;
 import elak.readinghood.backend.threads.Threads;
+
+import java.io.IOException;
 
 /**
  * @author Spiros
@@ -39,15 +40,6 @@ public class Profile {
     }
 
     /**
-     * YOU NEVER USE THIS FUNCTION as front end developer.
-     *
-     * @return the id of the UserProfile
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
      * @return the username of the user
      */
     public String getUsername() {
@@ -79,8 +71,9 @@ public class Profile {
      * This function returns the reputation of the User.
      *
      * @return the reputation of the User
+     * @throws IOException Can not Connect to server
      */
-    public int getReputation() {
+    public int getReputation() throws IOException {
         this.reputation = ServerRequest.getReputation(id);
         return reputation;
     }
@@ -88,22 +81,28 @@ public class Profile {
     /**
      * This function returns the threads of that have been created from the connected user.
      * Possible place to be used : My profile.
+     * <p>
+     * This function is not gonna be used for the time being.
      *
      * @return the threads of the connected user
+     * @throws IOException Can not Connect to server
      */
-    public Threads getTheThreadsOfThisProfile() {
-        return AppManager.getThreads("threads/created?profile_id=" + Integer.toString(id));
+    private Threads getTheThreadsOfThisProfile() throws IOException {
+        return ServerRequest.getThreads("threads/created?profile_id=" + Integer.toString(id));
     }
 
     /**
-     * This functions sets the Activity of the user.
-     * You use the function every time you wanna se the profile of somebody.
+     * This function sets the Activity of the user.
+     * You use the function every time you wanna see the profile of somebody.
+     *
+     * @throws IOException Can not Connect to server
      */
-    public void setActivity() {
+    public void setActivity() throws IOException {
         activity = ServerRequest.getActivity(id);
     }
 
     /**
+     * This function is only USED if you have set the activity earlier
      * This function lets you get the activity of the user.
      *
      * @return the activity of the user
@@ -112,6 +111,12 @@ public class Profile {
         return activity;
     }
 
+    /**
+     * This function checks if 2 profiles are equal based on their id
+     *
+     * @param profile is the compared profile
+     * @return a boolean value which indicated if the 2 compared profiles are equal based on their id
+     */
     @Override
     public boolean equals(Object profile) {
         if (profile == null) {
@@ -122,9 +127,6 @@ public class Profile {
         }
 
         final Profile other = (Profile) profile;
-        if (this.getId() != other.getId()) {
-            return false;
-        }
-        return true;
+        return this.id != other.id;
     }
 }

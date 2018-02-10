@@ -4,6 +4,7 @@ import elak.readinghood.backend.profiles.UserProfile;
 import elak.readinghood.backend.server.ServerRequest;
 import elak.readinghood.backend.server.ServerUpdate;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
@@ -28,9 +29,8 @@ public class StartUpManager {
      * password is the password of the user, sets the variables email and password if those are
      * correct and returns an error text based on the result of the given variables.
      * <p>
-     * Error0 = "Success" (which means that the user given variable where correct and then you can
-     * user ServerRequest class to get the user profile based on these email and password)
-     * Error1 = "Wrong Email or Password" (which means that the email does not exist in the databse)
+     * Error0 = "Success" (which means that the user gave correct input)
+     * Error1 = "Wrong Email or Password" (which means that the email does not exist in the database)
      * Error2 = "Wrong Password" (which means that the given password does not match the email password)
      * Error404 = "Fill every field" (which means that the user must fill all the given fields)
      * <p>
@@ -39,8 +39,9 @@ public class StartUpManager {
      * @param email    the user given email
      * @param password the user given password
      * @return the error text
+     * @throws IOException Can not Connect to server
      */
-    public String login(String email, String password) {
+    public String login(String email, String password) throws IOException {
         boolean passwordFullOfSpaces = password.replaceAll("\\s+", "").isEmpty();
         if (email.isEmpty() || password.isEmpty() || passwordFullOfSpaces) {
             return "Fill every field";
@@ -65,35 +66,22 @@ public class StartUpManager {
     }
 
     /**
-     * This function is initialized ONLY after finishing the assignment of the variables of the user in registration.
-     * It creates a user.
-     * <p>
-     * Error0 = "Success"
-     * Error1 = "Error connecting with server"
+     * This function creates a user and it is initialized ONLY after finishing the assignment of the variables
+     * of the user in registration.
      *
-     * @return an error text
+     * @throws IOException Can not Connect to server
      */
-    public String createUserProfile() {
-        if (ServerUpdate.createUser(email, username, password, department)) {
-            return "Success";
-        } else {
-            return "Error connecting with server";
-        }
+    public void createUserProfile() throws IOException {
+        ServerUpdate.createUser(email, username, password, department);
     }
 
     /**
-     * This function is called ONLY after succeeding login and it returns the profile of the user.
+     * This function is called ONLY after succeeding log in and it returns the profile of the user.
      *
      * @return the profile of the user
      */
-    public UserProfile getUserProfile() {
-        UserProfile userProfile = ServerRequest.getUserProfile(email, password);
-        if (userProfile != null) {
-            return userProfile;
-        } else {
-            System.out.println("Error connection with server");
-            return null;
-        }
+    public UserProfile getUserProfile() throws IOException {
+        return ServerRequest.getUserProfile(email, password);
     }
 
     /**
@@ -113,7 +101,7 @@ public class StartUpManager {
      * @param username is the user given username
      * @return the error text
      */
-    public String registrationSetEMailAndUsername(String email, String username) {
+    public String registrationSetEMailAndUsername(String email, String username) throws IOException {
         if (email.isEmpty() || username.isEmpty() || username.contains(" ")) {
             return "Fill every field";
         }
@@ -144,23 +132,15 @@ public class StartUpManager {
     }
 
     /**
-     * This function is used ONLY AFTER "Success" message from registrationSetEMailAndUsername() and sets the
-     * department of the user. It returns an error text. The user can continue to the next step even if you get
-     * error1 because the assignment of department is optional.
-     * <p>
-     * Error0 = "Success" (which means that the department was set successfully
-     * Error1 = "No department was set"
-     * <p>
+     * This function is used ONLY AFTER "Success" message from registrationSetEMailAndUsername()
      * You NEVER GIVE NULL VALUES. ONLY "".
      *
      * @param department is the user given department
      */
-    public String registrationSetDepartment(String department) {
+    public void registrationSetDepartment(String department) {
         if (!department.isEmpty()) {
             this.department = department;
-            return "Success";
         }
-        return "No department was set";
     }
 
     /**
@@ -220,11 +200,6 @@ public class StartUpManager {
                 letterFound = true;
             }
         }
-
-        if (enoughCharacters && letterFound && numberFound && doesNotContainsSpaces) {
-            return true;
-        } else {
-            return false;
-        }
+        return (enoughCharacters && letterFound && numberFound && doesNotContainsSpaces);
     }
 }

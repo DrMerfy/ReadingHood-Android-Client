@@ -2,6 +2,7 @@ package elak.readinghood.backend.threads;
 
 import elak.readinghood.backend.server.ServerUpdate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -40,8 +41,9 @@ public class Threads {
      *
      * @param number of the thread that you wanna see
      * @return the thread that you wanna see
+     * @throws IOException Can not Connect to server
      */
-    public Thread seeThread(int number) {
+    public Thread seeThread(int number) throws IOException{
         Thread chosenThread = getThread(number);
         ServerUpdate.seeThread(chosenThread.getId());
         chosenThread.increaseViews();

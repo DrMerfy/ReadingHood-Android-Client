@@ -43,6 +43,8 @@ public class Activity {
     }
 
     /**
+     * Preview the data of this function only if the string is not empty.
+     *
      * @return the Text from the latest upVoted Post
      */
     public String getLatestUpVotedPostText() {
@@ -50,6 +52,8 @@ public class Activity {
     }
 
     /**
+     * Preview the data of this function only if the string is not empty.
+     *
      * @return the Text from the latest downVoted Post
      */
     public String getLatestDownVotedPostText() {
@@ -57,6 +61,8 @@ public class Activity {
     }
 
     /**
+     * Preview the data of this function only if the string is not empty.
+     *
      * @return the Text from the latest created Post
      */
     public String getLatestCreatedPostText() {
@@ -64,6 +70,8 @@ public class Activity {
     }
 
     /**
+     * Preview the data of this function only if the string is not empty.
+     *
      * @return the Title of the lastest created Thread
      */
     public String getLatestCreatedThreadTitle() {

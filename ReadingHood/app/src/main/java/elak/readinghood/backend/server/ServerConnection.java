@@ -29,12 +29,10 @@ class ServerConnection {
      * @param password      of the user
      * @param requestMethod server based method
      * @return the request that was asked to deliver
-     * @throws MalformedURLException exception 1
-     * @throws IOException           exception 2
+     * @throws IOException Can not Connect to server
      */
-    protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws IOException {
+    protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws IOException, MalformedURLException {
         try {
-
             System.setOut(noOutputStream); // Silence all outputs
 
             String authString = email + ":" + password;
@@ -59,8 +57,11 @@ class ServerConnection {
             System.setOut(originalStream); // Desilence all outputs
 
             return response.toString();
+        } catch (MalformedURLException e) {
+            System.setOut(originalStream); // Desilence all outputs
+            throw new MalformedURLException();
         } catch (IOException e) {
-            System.setOut(originalStream);
+            System.setOut(originalStream); // Desilence all outputs
             throw new IOException();
         }
     }
@@ -71,8 +72,7 @@ class ServerConnection {
      * @param link          of the request
      * @param requestMethod server based method
      * @return the request that was asked to deliver
-     * @throws MalformedURLException exception 1
-     * @throws IOException           exception 2
+     * @throws IOException Can not Connect to server
      */
     protected static String sendSimpleRequest(String link, String requestMethod) throws IOException {
         try {

@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,25 +30,21 @@ public class ServerRequest {
      *
      * @param email is the user given email
      * @return a boolean value if the given email exists in the database
+     * @throws IOException Can not Connect to server
      */
-    public static boolean existenceOfEmail(String email) {
+    public static boolean existenceOfEmail(String email) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
             String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
             try {
                 JSONObject jsonObject = new JSONObject(jsonResult);
                 String jsonEmail = jsonObject.getString("email");
-                if (jsonEmail.equals(email)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return jsonEmail.equals(email);
             } catch (JSONException J) {
                 return false;
             }
         } catch (IOException e) {
-            // todo error dialog
-            return false;
+            throw new IOException();
         }
     }
 
@@ -57,14 +54,19 @@ public class ServerRequest {
      * @param email    the user given email
      * @param password the user given password
      * @return a boolean value if the given password matches the email's password
+     * @throws IOException Can not Connect to server
      */
-    public static boolean checkPasswordForEmail(String email, String password) {
+    public static boolean checkPasswordForEmail(String email, String password) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/verify";
-            ServerConnection.sendAuthenticatedRequest(url, email, password, "GET");
+            System.out.println(ServerConnection.sendAuthenticatedRequest(url, email, password, "GET"));
             return true;
+        //} catch (MalformedURLException m) {
+         //   m.getStackTrace();
+        //    return false;
         } catch (IOException e) {
-            return false;
+            e.getStackTrace();
+            throw new IOException();
         }
     }
 
@@ -75,26 +77,20 @@ public class ServerRequest {
      * @param email    the user given email
      * @param password the user given password
      * @return the profile of the user
+     * @throws IOException Can not Connect to server
      */
-    public static UserProfile getUserProfile(String email, String password) {
+    public static UserProfile getUserProfile(String email, String password) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/accounts/searchEmail?email=" + URLEncoder.encode(email, "UTF-8");
             String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
             try {
-                Profile profile = new Profile();
-                Profile testProfile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
-                if (testProfile != null) {
-                    profile = testProfile;
-                }
-
+                Profile profile = getProfile(new JSONObject(jsonResult).getJSONObject("profile").toString());
                 return new UserProfile(profile, email, password);
             } catch (JSONException J) {
-                System.out.println("wrong json");
                 return new UserProfile();
             }
         } catch (IOException e) {
-            // todo error dialog
-            return new UserProfile();
+            throw new IOException();
         }
     }
 
@@ -103,14 +99,14 @@ public class ServerRequest {
      *
      * @param id of the user
      * @return the reputation of the user
+     * @throws IOException Can not Connect to server
      */
-    public static int getReputation(int id) {
+    public static int getReputation(int id) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/profiles/votes?profile_id=" + Integer.toString(id);
             return Integer.parseInt(ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET"));
         } catch (IOException e) {
-            // todo error dialog
-            return 0;
+            throw new IOException();
         }
     }
 
@@ -119,13 +115,14 @@ public class ServerRequest {
      *
      * @param id of the thread
      * @return the latest post of a thread
+     * @throws IOException Can not Connect to server
      */
-    public static Post getLatestPostOfAThread(int id) {
+    public static Post getLatestPostOfAThread(int id) throws IOException {
         Posts posts = getPosts(1, "posts/byThread?thread_id=" + Integer.toString(id));
 
-        if (posts.size() > 0) {
-            if (posts.size() == 0) {
-                return posts.getPost(0);
+        if (posts.size() > 1) {
+            if (posts.size() == 2) {
+                return posts.getPost(1);
             } else {
                 return posts.getPost(posts.size() - 1);
             }
@@ -133,7 +130,14 @@ public class ServerRequest {
         return new Post();
     }
 
-    public static Activity getActivity(int id) {
+    /**
+     * This function returns the Activity of the User
+     *
+     * @param id is the id of the user
+     * @return The Activity of the User
+     * @throws IOException Can not Connect to server
+     */
+    public static Activity getActivity(int id) throws IOException {
         ArrayList<String> info = new ArrayList<>();
         Posts upVotedPosts = getPosts(1, "posts/upvoted?profile_id=" + Integer.toString(id));
         if (upVotedPosts.size() != 0) {
@@ -170,8 +174,9 @@ public class ServerRequest {
      *
      * @param option is the required question
      * @return the threads that it has been asked to deliver
+     * @throws IOException Can not Connect to server
      */
-    public static Threads getThreads(String option) {
+    public static Threads getThreads(String option) throws IOException {
         ArrayList<Thread> threads = new ArrayList<>();
         try {
             String url = "https://readinghood.tk:8443/" + option;
@@ -203,7 +208,6 @@ public class ServerRequest {
                             answerPosts.addPost(testPosts.getPost(j));
                         }
                         threads.add(new Thread(id, title, views, tags, questionPost, answerPosts));
-
                     } catch (JSONException J) {
                     }
                 }
@@ -212,21 +216,21 @@ public class ServerRequest {
                 return new Threads(threads);
             }
         } catch (IOException e) {
-            // todo error dialog
-            return new Threads(threads);
+            throw new IOException();
         }
     }
 
     /**
-     * This functions returns the tags that has been asked to deliver.
+     * This function returns the tags that has been asked to deliver.
      * if way = 1 it means that is is asked to ping to the server and get the posts.
      * if way = 2 it means that is asked to unwrap a string and get the posts.
      *
      * @param way    is that way that is asked to act
      * @param option is the specific way that is asked
      * @return the tags that has been asked to deliver
+     * @throws IOException Can not Connect to server
      */
-    public static Tags getTags(int way, String option) {
+    public static Tags getTags(int way, String option) throws IOException {
         HashSet<Tag> tags = new HashSet<>();
         String jsonResult;
         if (way == 1) {
@@ -234,8 +238,7 @@ public class ServerRequest {
                 String url = "https://readinghood.tk:8443/tags/" + option;
                 jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             } catch (IOException e) {
-                // todo error dialog
-                return new Tags();
+                throw new IOException();
             }
         } else {
             jsonResult = option;
@@ -257,7 +260,6 @@ public class ServerRequest {
 
                     tags.add(new Tag(id, usages, tagName));
                 } catch (JSONException J) {
-                    return new Tags(tags);
                 }
             }
             return new Tags(tags);
@@ -274,8 +276,9 @@ public class ServerRequest {
      * @param way    is that way that is asked to act
      * @param option is the string that will unwrap of the ping that it is going to make
      * @return the posts that has been asked to deliver
+     * @throws IOException Can not Connect to server
      */
-    private static Posts getPosts(int way, String option) {
+    private static Posts getPosts(int way, String option) throws IOException {
         String jsonResult;
         ArrayList<Post> posts = new ArrayList<>();
         if (way == 1) {
@@ -283,8 +286,7 @@ public class ServerRequest {
                 String url = "https://readinghood.tk:8443/" + option;
                 jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             } catch (IOException e) {
-                // todo error dialog
-                return new Posts();
+                throw new IOException();
             }
         } else {
             jsonResult = option;
@@ -366,7 +368,7 @@ public class ServerRequest {
     }
 
     /**
-     * This Function unwraps a jsonString Profile and return the profile object.
+     * This Function unwraps a jsonString Profile and returns the profile object.
      *
      * @param option the json profile that must be unwrapped
      * @return the extracted profile
@@ -430,8 +432,7 @@ public class ServerRequest {
             } catch (JSONException J) {
             }
 
-            Profile profile = new Profile(jsonId, jasonReputation, jsonUsername, jsonName, jsonSurname, jsonDepartment);
-            return profile;
+            return new Profile(jsonId, jasonReputation, jsonUsername, jsonName, jsonSurname, jsonDepartment);
         } catch (JSONException J) {
             return new Profile();
         }

@@ -46,6 +46,12 @@ public class Tag {
         return name;
     }
 
+    /**
+     * This function checks if 2 tags are equal based on their name
+     *
+     * @param tag is the compared tag
+     * @return a boolean value which indicated if the 2 compared tags are equal based on their name
+     */
     @Override
     public boolean equals(Object tag) {
         if (tag == null) {
@@ -56,9 +62,6 @@ public class Tag {
         }
 
         final Tag other = (Tag) tag;
-        if (this.getName().equals(other.getName())) {
-            return false;
-        }
-        return true;
+        return this.name.equals(other.name);
     }
 }

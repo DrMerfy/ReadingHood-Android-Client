@@ -30,9 +30,11 @@ public class AppManager {
     // Account related functions
 
     /**
-     * This function sets the user
+     * This function sets the user.
+     *
+     * @throws IOException Can not Connect to server
      */
-    public static void setUserProfile() {
+    public static void setUserProfile() throws IOException {
         userProfile = startUpManager.getUserProfile();
         startUpManager = null;
     }
@@ -46,19 +48,19 @@ public class AppManager {
 
     /**
      * This function creates a Thread.
-     * You need the title,  text of the first post of the thread and the tags.
+     * You need the title,  text of the first post (question) of the thread and the tags.
      * You will get as a result if the creation was correct or not with an error text.
      * <p>
-     * Error0 = "Success" (which means the creating was successful)
-     * Error1 = "Error connecting with server"
-     * Error2 = "Fill the fields" (when title and text are empty or full of spaces)
-     * Error3 = "Tag(s) must not have spaces" (a tag Must not contain spaces)
+     * Error0 = "Success" (which means the creating of the profile was successful)
+     * Error1 = "Fill the fields" (when title and text are empty or full of spaces)
+     * Error2 = "Tag(s) must not have spaces" (a tag Must not contain spaces)
      *
      * @param title is the title of the thread
      * @param text  is the text of the first post of the thread
      * @param tags  are the tags of the thread
+     * @throws IOException Can not Connect to server
      */
-    public static String createThread(String title, String text, HashSet<String> tags) {
+    public static String createThread(String title, String text, HashSet<String> tags) throws IOException {
         boolean titleFullOfSpaces = title.replaceAll("\\s+", "").isEmpty();
         boolean textFullOfSpaces = text.replaceAll("\\s+", "").isEmpty();
         if (title.isEmpty() || text.isEmpty() || textFullOfSpaces || titleFullOfSpaces) {
@@ -70,15 +72,12 @@ public class AppManager {
                 return "Tag(s) must not have spaces";
             }
         }
-        if (ServerUpdate.createThread(title, text, tags)) {
-            return "Success";
-        } else {
-            return "Error connecting with server";
-        }
+        ServerUpdate.createThread(title, text, tags);
+        return "Success";
     }
 
     /**
-     * You use this function ONLY if you have log in and then you what to log out.
+     * You use this function ONLY if you have logged in and then you what to log out.
      * When this function is used you return an appropriate message.
      *
      * @return "Successful log out"
@@ -92,21 +91,12 @@ public class AppManager {
     // Threads related functions
 
     /**
-     * This function returns all the threads.
-     *
-     * @return all the threads
-     */
-    public static Threads getAllTheThreads() {
-        return getThreads("threads/all");
-    }
-
-    /**
      * This function returns the popular threads of the news feed.
      * Possible place to be used : NewsFeed.
      *
      * @return the popular threads of the news feed
      */
-    public static Threads getPopularThreadsOfNewsFeed() {
+    public static Threads getPopularThreadsOfNewsFeed() throws IOException {
         return getThreads("threads/popular");
     }
 
@@ -115,28 +105,21 @@ public class AppManager {
      * Possible place to be used : NewsFeed.
      *
      * @return the recent threads of the news feed
+     * @throws IOException Can not Connect to server
      */
-    public static Threads getRecentThreadsOfNewsFeed() {
+    public static Threads getRecentThreadsOfNewsFeed() throws IOException {
         return getThreads("threads/recent");
     }
 
     /**
-     * This function return the favourite threads of the user.
-     * Possible place to be used : NewsFeed.
-     *
-     * @return the favourite threads of the user
-     */
-    public static Threads getFavoritesThreads() {
-        return getThreads("profile/favorites");
-    }
-
-    /**
-     * This function returns the threads from the same department as the user.
+     * This function returns the threads from the same department as the user in descending order based on the date
+     * (id for the time being).
      * Possible place to be used : NewsFeed.
      *
      * @return the threads from the same department as the user
+     * @throws IOException Can not Connect to server
      */
-    public static Threads getThreadsAccordingToTheDepartmentOfTheUser() {
+    public static Threads getThreadsAccordingToTheDepartmentOfTheUser() throws IOException {
         return getThreads("threads/sameDepartment");
     }
 
@@ -145,12 +128,13 @@ public class AppManager {
      * Place to be used : Search bar.
      *
      * @return the threads according to a specific user given text which might be included somewhere
+     * @throws IOException Can not Connect to server
      */
-    public static Threads getThreadsAccordingToText(String text) {
+    public static Threads getThreadsAccordingToText(String text) throws IOException {
         try {
             return getThreads("threads/search?text=" + URLEncoder.encode(text, "UTF-8"));
         } catch (IOException e) {
-            return new Threads();
+            throw new IOException();
         }
     }
 
@@ -162,8 +146,9 @@ public class AppManager {
      *
      * @param tagName the user given tag name
      * @return the threads with this tag
+     * @throws IOException Can not Connect to server
      */
-    public static Threads getThreadsAccordingToATag(String tagName) {
+    public static Threads getThreadsAccordingToATag(String tagName) throws IOException {
         return getThreads("tags/threads?name=" + tagName);
     }
 
@@ -172,8 +157,9 @@ public class AppManager {
      * Place to be used : Tags.
      *
      * @return the most used tags in descending order
+     * @throws IOException Can not Connect to server
      */
-    public static Tags getMostUsedTags() {
+    public static Tags getMostUsedTags() throws IOException {
         return getTags("mostUsed");
     }
 
@@ -183,12 +169,13 @@ public class AppManager {
      *
      * @param name the name that was given
      * @return the tags that include the name that was given
+     * @throws IOException Can not Connect to server
      */
-    public static Tags getTagsAccordingToName(String name) {
+    public static Tags getTagsAccordingToName(String name) throws IOException {
         try {
             return getTags("search?name=" + URLEncoder.encode(name, "UTF-8"));
         } catch (IOException e) {
-            return new Tags();
+            throw new IOException();
         }
     }
 
@@ -201,8 +188,9 @@ public class AppManager {
      *
      * @param option the option that is asked
      * @return the threads that have been asked to be delivered
+     * @throws IOException Can not Connect to server
      */
-    public static Threads getThreads(String option) {
+    private static Threads getThreads(String option) throws IOException {
         return ServerRequest.getThreads(option);
     }
 
@@ -212,8 +200,9 @@ public class AppManager {
      *
      * @param option is the option asked
      * @return the tags according to an option
+     * @throws IOException Can not Connect to server
      */
-    private static Tags getTags(String option) {
+    private static Tags getTags(String option) throws IOException {
         return ServerRequest.getTags(1, option);
     }
 }

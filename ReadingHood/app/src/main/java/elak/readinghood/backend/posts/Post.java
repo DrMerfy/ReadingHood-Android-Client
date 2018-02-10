@@ -4,6 +4,7 @@ import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.server.ServerUpdate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -73,7 +74,7 @@ public class Post {
     }
 
     /**
-     * Don't Use this function.
+     * Don't Use this function yet.
      *
      * @return the the upVoters of the post
      */
@@ -82,7 +83,7 @@ public class Post {
     }
 
     /**
-     * Don't Use this function.
+     * Don't Use this function yet.
      *
      * @return the downVoters of the post
      */
@@ -127,33 +128,25 @@ public class Post {
     }
 
     /**
-     * THIS FUNCTION IS ONLY USED IF THE USER canUpVote this post.
+     * THIS FUNCTION IS ONLY USED IF THE USER canUpVote this post. It upVotes this post
      *
-     * @return a boolean value which indicates if the post was upVoted or not
+     * @throws IOException Can not Connect to server
      */
-    public boolean upVoteThisPost() {
-        if (ServerUpdate.upVotePost(id)) {
-            upVoters.add(AppManager.getUserProfile());
-            refreshNumberOfVotes();
-            return true;
-        } else {
-            return false;
-        }
+    public void upVoteThisPost() throws IOException {
+        ServerUpdate.upVotePost(id);
+        upVoters.add(AppManager.getUserProfile());
+        refreshNumberOfVotes();
     }
 
     /**
-     * THIS FUNCTION IS ONLY USED IF THE USER canDownVote this post.
+     * THIS FUNCTION IS ONLY USED IF THE USER canDownVote this post. It downVotes this post
      *
-     * @return a boolean value which indicates if the post was downVoted or not
+     * @throws IOException Can not Connect to server
      */
-    public boolean downVoteThisPost() {
-        if (ServerUpdate.downVotePost(id)) {
-            downVoters.add(AppManager.getUserProfile());
-            refreshNumberOfVotes();
-            return true;
-        } else {
-            return false;
-        }
+    public void downVoteThisPost() throws IOException {
+        ServerUpdate.downVotePost(id);
+        downVoters.add(AppManager.getUserProfile());
+        refreshNumberOfVotes();
     }
 
     /**

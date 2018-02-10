@@ -7,6 +7,8 @@ import elak.readinghood.backend.tags.Tags;
 import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.server.ServerUpdate;
 
+import java.io.IOException;
+
 /**
  * @author Spiros
  */
@@ -88,39 +90,24 @@ public class Thread {
     }
 
     /**
-     * This function add this thread to the favorites of the user.
-     *
-     * @return a boolean value which indicates if the addition of this thread to favorites was successful
-     */
-    public boolean addToFavorites() {
-        return ServerUpdate.addThreadToFavorites(id);
-    }
-
-    /**
      * This function answers a thread and returns an error text.
      * <p>
      * Error0 = "Success"
-     * Error1 = "Error connecting with server"
-     * Error2 = "Fill the fields"
+     * Error1 = "Fill the fields"
      *
      * @param text is the text of the post that you are gonna write
      * @return an error text
+     * @throws IOException Can not Connect to server
      */
-    public String answerThreadWithAPost(String text) {
+    public String answerThreadWithAPost(String text) throws IOException {
         boolean textFullOfSpaces = text.replaceAll("\\s+", "").isEmpty();
         if (text.isEmpty() || textFullOfSpaces) {
             return "Fill the fields";
         }
 
-        if (ServerUpdate.answerThread(id, text)) {
-            Post post = ServerRequest.getLatestPostOfAThread(id);
-            if (post != null) {
-                answerPosts.addPost(post);
-            }
-            return "Success";
-        } else {
-            return "Error connecting with server";
-        }
+        ServerUpdate.answerThread(id, text);
+        answerPosts.addPost(ServerRequest.getLatestPostOfAThread(id));
+        return "Success";
     }
 
     /**
