@@ -45,23 +45,4 @@ public class HashTag {
     public String getName() {
         return name;
     }
-
-    /**
-     * This function checks if 2 HashTags are equal based on their name
-     *
-     * @param hashTag is the compared HashTag
-     * @return a boolean value which indicated if the 2 compared HashTags are equal based on their name
-     */
-    @Override
-    public boolean equals(Object hashTag) {
-        if (hashTag == null) {
-            return false;
-        }
-        if (!HashTag.class.isAssignableFrom(hashTag.getClass())) {
-            return false;
-        }
-
-        final HashTag other = (HashTag) hashTag;
-        return this.name.equals(other.name);
-    }
 }

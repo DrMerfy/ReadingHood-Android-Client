@@ -67,6 +67,7 @@ public class UserProfile extends Profile {
      * This function edits the name of the user.
      * <p>
      * Error0 = "Success" (which means that the name was changed successfully)
+     * Error1 = "The name must contains 1 or 2 terms only delimited with space"
      * Error404 = "Fill every field" (which means that the user must fill all the given fields)
      *
      * @param newName the user given newName
@@ -74,10 +75,14 @@ public class UserProfile extends Profile {
      * @throws IOException Can not Connect to server
      */
     public String editName(String newName) throws IOException {
-        if (newName.isEmpty()) {
+        boolean titleFullOfSpaces = newName.replaceAll("\\s+", "").isEmpty();
+        if (newName.isEmpty() || titleFullOfSpaces) {
             return "Fill every field";
         }
-
+        String[] splitted = newName.split("\\s+");
+        if (splitted.length < 1 || splitted.length > 2) {
+            return "The name must contains 1 or 2 terms only only delimited with space";
+        }
         ServerUpdate.editName(newName);
         this.name = newName;
         return "Success";
@@ -87,6 +92,7 @@ public class UserProfile extends Profile {
      * This function edits the surname of the user.
      * <p>
      * Error0 = "Success" (which means that the surname was changed successfully)
+     * Error1 = "The surname must contains 1 or 2 terms only delimited with space"
      * Error404 = "Fill every field" (which means that the user must fill all the given fields)
      *
      * @param newSurname the user given newName
@@ -94,8 +100,13 @@ public class UserProfile extends Profile {
      * @throws IOException Can not Connect to server
      */
     public String editSurname(String newSurname) throws IOException {
-        if (newSurname.isEmpty()) {
+        boolean titleFullOfSpaces = newSurname.replaceAll("\\s+", "").isEmpty();
+        if (newSurname.isEmpty() || titleFullOfSpaces) {
             return "Fill every field";
+        }
+        String[] splitted = newSurname.split("\\s+");
+        if (splitted.length < 1 || splitted.length > 2) {
+            return "The surname must contains 1 or 2 terms only only delimited with space";
         }
         ServerUpdate.editSurname(newSurname);
         this.surname = newSurname;

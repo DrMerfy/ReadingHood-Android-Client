@@ -56,8 +56,7 @@ public class AppManager {
      * Error0 = "Success" (which means the creating of the profile was successful)
      * Error1 = "Fill the fields" (when title and text are empty or full of spaces)
      * Error2 = "Thread must contain at least one hashTag"
-     * Error3 = "HashTag(s) must not have spaces" (a hashTag Must not contain spaces)
-     * Error4 = "Wrong hasHTag format"
+     * Error4 = "Wrong hasHTags' format"
      * <p>
      *
      * @param title    is the title of the thread
@@ -147,40 +146,64 @@ public class AppManager {
     }
 
     /**
-     * This function searches for profiles according to the given name and surname and returns the corresponding results.
-     * This function is used on the search bar
+     * This function searches for profiles according to the given name-surname and returns the corresponding results.
+     * This function is used in the search bar.
      *
      * @param text is the user given text to search profiles
-     * @return The threads that has been asked to deliver
+     * @return The profiles that has been asked to deliver
      * @throws IOException Can not Connect to server
      */
     public static ArrayList<Profile> getProfilesAccordingToText(String text) throws IOException {
-        String[] splited = text.split("\\s+");
-        if (splited.length >= 3 || splited.length == 0) {
-            return new ArrayList<>();
-        } else if (splited.length == 2) {
-            ArrayList<Profile> results = ServerRequest.getProfiles(splited[0], splited[1]);
-            if (results.isEmpty()) {
-                results = ServerRequest.getProfiles(splited[1], splited[0]);
-                if (!results.isEmpty()) {
-                    return results;
-                }
-            } else {
-                return results;
-            }
+        ArrayList<Profile> profilesResults = new ArrayList<>();
+        String[] splitted = text.split("\\s+");
+
+        if (splitted.length > 4 || splitted.length == 0) {
+            return profilesResults;
+        } else if (splitted.length == 4) {
+            // names first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0] + " " + splitted[1], splitted[2] + " " + splitted[3]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0] + " " + splitted[1], splitted[3] + " " + splitted[2]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[1] + " " + splitted[0], splitted[2] + " " + splitted[3]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[1] + " " + splitted[0], splitted[3] + " " + splitted[2]));
+
+            //surnames first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[2] + " " + splitted[3], splitted[0] + " " + splitted[1]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[3] + " " + splitted[2], splitted[0] + " " + splitted[1]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[2] + " " + splitted[3], splitted[1] + " " + splitted[0]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[3] + " " + splitted[2], splitted[1] + " " + splitted[0]));
+        } else if (splitted.length == 3) {
+            // 2 names, 1 surname
+
+            // names first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0] + " " + splitted[1], splitted[2]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[1] + " " + splitted[0], splitted[2]));
+
+            // surname first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[1] + " " + splitted[2], splitted[0]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[2] + " " + splitted[1], splitted[0]));
+
+
+            // 2 surnames, 1 name
+
+            // name first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0], splitted[1] + " " + splitted[2]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0], splitted[2] + " " + splitted[1]));
+
+            // surnames first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[2], splitted[0] + " " + splitted[1]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[2], splitted[1] + " " + splitted[0]));
+        } else if (splitted.length == 2) {
+            // name first
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0], splitted[1]));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[1], splitted[2]));
         } else {
-            ArrayList<Profile> results = ServerRequest.getProfiles(splited[0], "");
-            if (results.isEmpty()) {
-                results = ServerRequest.getProfiles("", splited[0]);
-                if (!results.isEmpty()) {
-                    return results;
-                }
-            } else {
-                return results;
-            }
+            // name only
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles(splitted[0], ""));
+            addProfilesToTheListOfResults(profilesResults, ServerRequest.getProfiles("", splitted[0]));
         }
-        return new ArrayList<>();
+        return profilesResults;
     }
+
 
     // HashTags related functions
 
@@ -279,6 +302,36 @@ public class AppManager {
                         return false;
                     }
                 }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This function adds a list of new Profiles into a list that was created before by checking their equality.
+     *
+     * @param profiles      is the list of profiles that was created before
+     * @param addedProfiles is the list of profiles that must be check if they already exist in the given list of created profiles
+     */
+    private static void addProfilesToTheListOfResults(ArrayList<Profile> profiles, ArrayList<Profile> addedProfiles) {
+        for (Profile addedProfile : addedProfiles) {
+            if (!profilesListContainsThisProfile(profiles, addedProfile)) {
+                profiles.add(addedProfile);
+            }
+        }
+    }
+
+    /**
+     * This function checks if a list of profiles contains a certain profile.
+     *
+     * @param profiles     is the list of profiles
+     * @param addedProfile is the certain profile
+     * @return a boolean value which indicates if a certain profile is included into the list of the given profiles
+     */
+    private static boolean profilesListContainsThisProfile(ArrayList<Profile> profiles, Profile addedProfile) {
+        for (Profile profile : profiles) {
+            if (addedProfile.equals(profile)) {
+                return false;
             }
         }
         return true;

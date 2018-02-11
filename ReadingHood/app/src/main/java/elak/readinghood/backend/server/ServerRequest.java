@@ -272,6 +272,10 @@ public class ServerRequest {
         String jsonResult;
         if (way == 1) {
             try {
+                boolean tagFullOfSpaces = option.replaceAll("\\s+", "").isEmpty();
+                if (tagFullOfSpaces || option.isEmpty()) {
+                    return new HashTags(new HashSet<>());
+                }
                 String url = "https://readinghood.tk:8443/tags/" + option;
                 jsonResult = ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET");
             } catch (IOException e) {

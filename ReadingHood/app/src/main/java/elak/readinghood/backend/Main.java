@@ -2,6 +2,7 @@ package elak.readinghood.backend;
 
 import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.hashTags.HashTags;
+import elak.readinghood.backend.posts.Post;
 import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.threads.Thread;
 import elak.readinghood.backend.threads.Threads;
@@ -17,14 +18,14 @@ public class Main {
         try {
             // Start Panel
             // registration example
-            // System.out.println(AppManager.getStartUpManager().registrationSetEMailAndUsername("spyridon97@hotmail.com", "spyridon97"));
-            // System.out.println(AppManager.getStartUpManager().registrationSetDepartment("Informatics"));
-            // System.out.println(AppManager.getStartUpManager().registrationSetPasswordAndRePassword("a1234567", "a1234567"));
-            // System.out.println(AppManager.getStartUpManager().createUserProfile());
-
+            /*
+            System.out.println(AppManager.getStartUpManager().registrationSetEMailAndUsername("spyridon97@hotmail.com", "spyridon97"));
+            AppManager.getStartUpManager().registrationSetDepartment("Informatics");
+            System.out.println(AppManager.getStartUpManager().registrationSetPasswordAndRePassword("a1234567", "a1234567"));
+            AppManager.getStartUpManager().createUserProfile();
+            //*/
 
             // example of login
-            // !!! log in is not working if you give wrong password for the time being, but is gonna be fixed soon |||
             System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
             // System.out.println(AppManager.getStartUpManager().login("melissourgos@hotmail.com", "a1234567"));
 
@@ -81,7 +82,7 @@ public class Main {
             // Search bar
             /*
             threads = AppManager.getThreadsAccordingToText("java");
-            ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToNameAndSurname("Spyridon Tsalikis");
+            ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToText("Spyridon Tsalikis");
             //*/
 
 
@@ -89,9 +90,9 @@ public class Main {
 
             // HashTag search
             /*
-            hashTags = AppManager.getMostUsedTags();
-            hashTags = AppManager.getTagsAccordingToName("C++");
-            hashTags = AppManager.getThreadsAccordingToAHashTag("C++");
+            hashTags = AppManager.getMostUsedHashTags();
+            hashTags = AppManager.getHashTagsAccordingToName("C++");
+            threads = AppManager.getThreadsAccordingToAHashTag("C++");
             //*/
 
             /*
@@ -100,7 +101,7 @@ public class Main {
             for (int i = 0; i < hashTags.size(); i++) {
                 System.out.println("Name = " + hashTags.getTag(i).getName() + ", Usages = " + hashTags.getTag(i).getUsages() + " , id = " + hashTags.getTag(i).getId());
             }
-            */
+            //*/
 
             /*
             // View of threads example.
@@ -164,7 +165,7 @@ public class Main {
             // if a thread is not blocked you can answer it
             if (chosenThread.canYouAnswerThisThread()) {
                 System.out.println(chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
-                System.out.println(chosenThread.getTheLatestAddedPost());
+                chosenThread.getTheLatestAddedPost();
 
             }
             //*/
