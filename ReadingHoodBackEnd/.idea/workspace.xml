@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fce32eb-c477-443a-b91c-aa9ac0f5f329" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/ReadingHoodBackEnd/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ReadingHoodBackEnd/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/ReadingHoodBackEnd/Documentation/ReadingHoodBackEndClassDiagram.uml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/ReadingHoodBackEnd/.idea/workspace.xml" afterPath="$PROJECT_DIR$/ReadingHoodBackEnd/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -200,6 +193,14 @@
       <option name="presentableId" value="Default" />
       <updated>1518391752985</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added BackEndTesting">
+      <created>1518391883960</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1518391883960</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -234,6 +235,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added BackEndTesting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added BackEndTesting" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
