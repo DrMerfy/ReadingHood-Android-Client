@@ -1,13 +1,15 @@
 package elak.readinghood.backend.api;
 
+import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.profiles.UserProfile;
 import elak.readinghood.backend.server.ServerRequest;
 import elak.readinghood.backend.server.ServerUpdate;
-import elak.readinghood.backend.tags.Tags;
+import elak.readinghood.backend.hashTags.HashTags;
 import elak.readinghood.backend.threads.Threads;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -48,31 +50,37 @@ public class AppManager {
 
     /**
      * This function creates a Thread.
-     * You need the title,  text of the first post (question) of the thread and the tags.
+     * You need the title,  text of the first post (question) of the thread and the hashTags.
      * You will get as a result if the creation was correct or not with an error text.
      * <p>
      * Error0 = "Success" (which means the creating of the profile was successful)
      * Error1 = "Fill the fields" (when title and text are empty or full of spaces)
-     * Error2 = "Tag(s) must not have spaces" (a tag Must not contain spaces)
+     * Error2 = "Thread must contain at least one hashTag"
+     * Error3 = "HashTag(s) must not have spaces" (a hashTag Must not contain spaces)
+     * Error4 = "Wrong hasHTag format"
+     * <p>
      *
-     * @param title is the title of the thread
-     * @param text  is the text of the first post of the thread
-     * @param tags  are the tags of the thread
+     * @param title    is the title of the thread
+     * @param text     is the text of the first post of the thread
+     * @param hashTags are the hashTags of the thread
      * @throws IOException Can not Connect to server
      */
-    public static String createThread(String title, String text, HashSet<String> tags) throws IOException {
+    public static String createThread(String title, String text, HashSet<String> hashTags) throws IOException {
         boolean titleFullOfSpaces = title.replaceAll("\\s+", "").isEmpty();
         boolean textFullOfSpaces = text.replaceAll("\\s+", "").isEmpty();
         if (title.isEmpty() || text.isEmpty() || textFullOfSpaces || titleFullOfSpaces) {
             return "Fill the fields";
         }
 
-        for (String tag : tags) {
-            if (tag.contains(" ")) {
-                return "Tag(s) must not have spaces";
+        if (hashTags.isEmpty()) {
+            return "Thread must contain at least one hashTag";
+        }
+        for (String hashTag : hashTags) {
+            if (!correctHashTagFormat(hashTag)) {
+                return "Wrong hashTagFormat";
             }
         }
-        ServerUpdate.createThread(title, text, tags);
+        ServerUpdate.createThread(title, text, hashTags);
         return "Success";
     }
 
@@ -138,42 +146,55 @@ public class AppManager {
         }
     }
 
-    // Tags related functions
-
     /**
-     * This function returns the threads with the given tag name.
-     * Place to be used : Tags.
+     * This function searches for profiles according to the given name and surname and returns the corresponding results.
+     * This function is used on the search bar
      *
-     * @param tagName the user given tag name
-     * @return the threads with this tag
+     * @param name    is the name that you want to search for
+     * @param surname is the surname that you want to search for
+     * @return The threads that has been asked to deliver
      * @throws IOException Can not Connect to server
      */
-    public static Threads getThreadsAccordingToATag(String tagName) throws IOException {
-        return getThreads("tags/threads?name=" + tagName);
+    public static ArrayList<Profile> getProfilesAccordingToNameAndSurname(String name, String surname) throws IOException {
+        return ServerRequest.getProfiles(name, surname);
+    }
+
+    // HashTags related functions
+
+    /**
+     * This function returns the threads with the given hashTag name.
+     * Place to be used : HashTags.
+     *
+     * @param hashTagName the user given hashTag name
+     * @return the threads with this hashTag
+     * @throws IOException Can not Connect to server
+     */
+    public static Threads getThreadsAccordingToAHashTag(String hashTagName) throws IOException {
+        return getThreads("tags/threads?name=" + hashTagName);
     }
 
     /**
-     * This function returns the most used tags in descending order.
-     * Place to be used : Tags.
+     * This function returns the most used hashTags in descending order.
+     * Place to be used : HashTags.
      *
-     * @return the most used tags in descending order
+     * @return the most used hashTags in descending order
      * @throws IOException Can not Connect to server
      */
-    public static Tags getMostUsedTags() throws IOException {
-        return getTags("mostUsed");
+    public static HashTags getMostUsedHashTags() throws IOException {
+        return getHashTags("mostUsed");
     }
 
     /**
-     * This function returns the tags that include the name that was given.
-     * Place to be used : Tags.
+     * This function returns the hashTags that include the name that was given.
+     * Place to be used : HashTags.
      *
      * @param name the name that was given
-     * @return the tags that include the name that was given
+     * @return the hashTags that include the name that was given
      * @throws IOException Can not Connect to server
      */
-    public static Tags getTagsAccordingToName(String name) throws IOException {
+    public static HashTags getHashTagsAccordingToName(String name) throws IOException {
         try {
-            return getTags("search?name=" + URLEncoder.encode(name, "UTF-8"));
+            return getHashTags("search?name=" + URLEncoder.encode(name, "UTF-8"));
         } catch (IOException e) {
             throw new IOException();
         }
@@ -196,13 +217,47 @@ public class AppManager {
 
     /**
      * Helping function.
-     * This function return tags according to an option.
+     * This function return hashTags according to an option.
      *
      * @param option is the option asked
-     * @return the tags according to an option
+     * @return the hashTags according to an option
      * @throws IOException Can not Connect to server
      */
-    private static Tags getTags(String option) throws IOException {
-        return ServerRequest.getTags(1, option);
+    private static HashTags getHashTags(String option) throws IOException {
+        return ServerRequest.getHashTags(1, option);
+    }
+
+    /**
+     * This function checks if the hashTagFormat is correct.
+     * <p>
+     * According to the requirements, a hashTag must contain letters or numbers and  if it contains "_" they must be
+     * between letters or numbers or a combination of them.
+     *
+     * @param hashTag is the given hashTag for check
+     * @return a boolean value which indicates if a hashTag has a correct format
+     */
+    private static boolean correctHashTagFormat(String hashTag) {
+        for (int i = 0; i < hashTag.length(); i++) {
+            if (!Character.isLetter(hashTag.charAt(i)) || !Character.isDigit(hashTag.charAt(i)) || !(hashTag.charAt(i) == '_')) {
+                return false;
+            }
+
+            if (i == 0) {
+                if (hashTag.charAt(i) == '_') {
+                    return false;
+                }
+            } else if (i == hashTag.length() - 1) {
+                if (hashTag.charAt(i) == '_') {
+                    return false;
+                }
+            } else {
+                if (hashTag.charAt(i) == '_') {
+                    if (hashTag.charAt(i - 1) == '_' || hashTag.charAt(i + 1) == '_') {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

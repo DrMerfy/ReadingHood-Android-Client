@@ -3,8 +3,8 @@ package elak.readinghood.backend.server;
 import elak.readinghood.backend.posts.Post;
 import elak.readinghood.backend.posts.Posts;
 import elak.readinghood.backend.profiles.Profile;
-import elak.readinghood.backend.tags.Tag;
-import elak.readinghood.backend.tags.Tags;
+import elak.readinghood.backend.hashTags.HashTag;
+import elak.readinghood.backend.hashTags.HashTags;
 import elak.readinghood.backend.api.AppManager;
 import elak.readinghood.backend.profiles.Activity;
 import elak.readinghood.backend.profiles.UserProfile;
@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -59,13 +58,35 @@ public class ServerRequest {
     public static boolean checkPasswordForEmail(String email, String password) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/verify";
-            System.out.println(ServerConnection.sendAuthenticatedRequest(url, email, password, "GET"));
+            ServerConnection.sendAuthenticatedRequest(url, email, password, "GET");
             return true;
-        //} catch (MalformedURLException m) {
-         //   m.getStackTrace();
-        //    return false;
         } catch (IOException e) {
-            e.getStackTrace();
+            if (e.getMessage().equals("401")) {
+                // there is no user with this email and password
+                return false;
+            } else {
+                e.printStackTrace();
+                throw new IOException();
+            }
+        }
+    }
+
+    public static ArrayList<Profile> getProfiles(String name, String surname) throws IOException {
+        ArrayList<Profile> profiles = new ArrayList<>();
+        try {
+            String url = "https://readinghood.tk:8443/accounts/search?name=" + URLEncoder.encode(name, "UTF-8") +
+                    "&surname=" + URLEncoder.encode(surname, "UTF-8");
+            String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
+            try {
+                JSONArray jsonProfiles = new JSONArray(jsonResult);
+                for (int i = 0; i < jsonProfiles.length(); i++) {
+                    profiles.add(getProfile(jsonProfiles.getJSONObject(i).toString()));
+                }
+                return profiles;
+            } catch (JSONException J) {
+                return profiles;
+            }
+        } catch (IOException e) {
             throw new IOException();
         }
     }
@@ -95,13 +116,13 @@ public class ServerRequest {
     }
 
     /**
-     * This function gets the reputation of the user.
+     * This function gets the views of the user.
      *
      * @param id of the user
      * @return the reputation of the user
      * @throws IOException Can not Connect to server
      */
-    public static int getReputation(int id) throws IOException {
+    public static int getViews(int id) throws IOException {
         try {
             String url = "https://readinghood.tk:8443/profiles/votes?profile_id=" + Integer.toString(id);
             return Integer.parseInt(ServerConnection.sendAuthenticatedRequest(url, AppManager.getUserProfile().getEmail(), AppManager.getUserProfile().getPassword(), "GET"));
@@ -196,8 +217,8 @@ public class ServerRequest {
                         //getting views
                         int views = thread.getInt("views");
 
-                        //getting tags
-                        Tags tags = getTags(2, thread.getJSONArray("tags").toString());
+                        //getting hashTags
+                        HashTags hashTags = getHashTags(2, thread.getJSONArray("tags").toString());
 
                         //getting posts
                         Posts testPosts = getPosts(2, thread.getJSONArray("posts").toString());
@@ -207,7 +228,7 @@ public class ServerRequest {
                         for (int j = 1; j < testPosts.size(); j++) {
                             answerPosts.addPost(testPosts.getPost(j));
                         }
-                        threads.add(new Thread(id, title, views, tags, questionPost, answerPosts));
+                        threads.add(new Thread(id, title, views, hashTags, questionPost, answerPosts));
                     } catch (JSONException J) {
                     }
                 }
@@ -221,17 +242,17 @@ public class ServerRequest {
     }
 
     /**
-     * This function returns the tags that has been asked to deliver.
+     * This function returns the hashTags that has been asked to deliver.
      * if way = 1 it means that is is asked to ping to the server and get the posts.
      * if way = 2 it means that is asked to unwrap a string and get the posts.
      *
      * @param way    is that way that is asked to act
      * @param option is the specific way that is asked
-     * @return the tags that has been asked to deliver
+     * @return the hashTags that has been asked to deliver
      * @throws IOException Can not Connect to server
      */
-    public static Tags getTags(int way, String option) throws IOException {
-        HashSet<Tag> tags = new HashSet<>();
+    public static HashTags getHashTags(int way, String option) throws IOException {
+        HashSet<HashTag> hashTags = new HashSet<>();
         String jsonResult;
         if (way == 1) {
             try {
@@ -244,10 +265,10 @@ public class ServerRequest {
             jsonResult = option;
         }
         try {
-            JSONArray jsonTags = new JSONArray(jsonResult);
-            for (int i = 0; i < jsonTags.length(); i++) {
+            JSONArray jsonHashTags = new JSONArray(jsonResult);
+            for (int i = 0; i < jsonHashTags.length(); i++) {
                 try {
-                    JSONObject jsonTag = jsonTags.getJSONObject(i);
+                    JSONObject jsonTag = jsonHashTags.getJSONObject(i);
 
                     // get id
                     int id = jsonTag.getInt("id");
@@ -258,13 +279,13 @@ public class ServerRequest {
                     // get tag name
                     String tagName = jsonTag.getString("name");
 
-                    tags.add(new Tag(id, usages, tagName));
+                    hashTags.add(new HashTag(id, usages, tagName));
                 } catch (JSONException J) {
                 }
             }
-            return new Tags(tags);
+            return new HashTags(hashTags);
         } catch (JSONException J) {
-            return new Tags(tags);
+            return new HashTags(hashTags);
         }
     }
 
@@ -322,10 +343,7 @@ public class ServerRequest {
                 // author of the post
                 Profile author = new Profile();
                 try {
-                    Profile profile = getProfile(jsonPost.getJSONObject("author").toString());
-                    if (profile != null) {
-                        author = profile;
-                    }
+                    author = getProfile(jsonPost.getJSONObject("author").toString());
                 } catch (JSONException J) {
                 }
 
@@ -339,10 +357,6 @@ public class ServerRequest {
                 ArrayList<Profile> upVoters = new ArrayList<>();
                 for (int j = 0; j < jsonUpVoters.length(); j++) {
                     upVoters.add(getProfile(jsonUpVoters.get(j).toString()));
-                    Profile profile = getProfile(jsonUpVoters.get(j).toString());
-                    if (profile != null) {
-                        upVoters.add(getProfile(jsonUpVoters.get(j).toString()));
-                    }
                 }
 
                 // downVoters of the post
@@ -354,10 +368,7 @@ public class ServerRequest {
 
                 ArrayList<Profile> downVoters = new ArrayList<>();
                 for (int j = 0; j < jsonDownVoters.length(); j++) {
-                    Profile profile = getProfile(jsonDownVoters.get(j).toString());
-                    if (profile != null) {
-                        downVoters.add(getProfile(jsonDownVoters.get(j).toString()));
-                    }
+                    downVoters.add(getProfile(jsonDownVoters.get(j).toString()));
                 }
                 posts.add(new Post(id, numberOfVotes, text, author, upVoters, downVoters));
             }

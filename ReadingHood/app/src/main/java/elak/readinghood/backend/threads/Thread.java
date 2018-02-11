@@ -3,7 +3,7 @@ package elak.readinghood.backend.threads;
 import elak.readinghood.backend.posts.Post;
 import elak.readinghood.backend.posts.Posts;
 import elak.readinghood.backend.server.ServerRequest;
-import elak.readinghood.backend.tags.Tags;
+import elak.readinghood.backend.hashTags.HashTags;
 import elak.readinghood.backend.profiles.Profile;
 import elak.readinghood.backend.server.ServerUpdate;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Thread {
     private int id, views;
     private String title;
-    private Tags tags;
+    private HashTags hashTags;
     private Post questionPost;
     private Posts answerPosts;
 
@@ -25,15 +25,15 @@ public class Thread {
      * @param id           is the id of the thread
      * @param title        is the title of the thread
      * @param views        are the amount of views of the thread
-     * @param tags         are the tags of the thread
+     * @param hashTags     are the hashTags of the thread
      * @param questionPost the question post of the thread
      * @param answerPosts  are the answerPosts of the thread
      */
-    public Thread(int id, String title, int views, Tags tags, Post questionPost, Posts answerPosts) {
+    public Thread(int id, String title, int views, HashTags hashTags, Post questionPost, Posts answerPosts) {
         this.id = id;
         this.views = views;
         this.title = title;
-        this.tags = tags;
+        this.hashTags = hashTags;
         this.questionPost = questionPost;
         this.answerPosts = answerPosts;
     }
@@ -69,10 +69,10 @@ public class Thread {
     }
 
     /**
-     * @return the tags of the thread
+     * @return the hashTags of the thread
      */
-    public Tags getTags() {
-        return tags;
+    public HashTags getHashTags() {
+        return hashTags;
     }
 
     /**
@@ -87,6 +87,17 @@ public class Thread {
      */
     public Posts getAnswerPosts() {
         return answerPosts;
+    }
+
+    /**
+     * This function tells if you can answer a thread or not.
+     * According to the requirements, if the number of votes a question <= -50 then you can not answer it
+     * cause it is counted as "blocked".
+     *
+     * @return a boolean value which indicated if you answer a thread or not, or in other words if a thread is "blocked"
+     */
+    public boolean canYouAnswerThisThread() {
+        return questionPost.getNumberOfVotes() > -50;
     }
 
     /**

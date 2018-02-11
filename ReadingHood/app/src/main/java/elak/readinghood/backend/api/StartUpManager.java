@@ -17,7 +17,7 @@ public class StartUpManager {
     /**
      * trivial constructor
      */
-    public StartUpManager() {
+    protected StartUpManager() {
         this.email = "";
         this.username = "";
         this.password = "";
@@ -42,8 +42,7 @@ public class StartUpManager {
      * @throws IOException Can not Connect to server
      */
     public String login(String email, String password) throws IOException {
-        boolean passwordFullOfSpaces = password.replaceAll("\\s+", "").isEmpty();
-        if (email.isEmpty() || password.isEmpty() || passwordFullOfSpaces) {
+        if (email.isEmpty() || password.isEmpty()) {
             return "Fill every field";
         }
 
@@ -89,7 +88,7 @@ public class StartUpManager {
      * and returns an error text based on the result of the given variables.
      * The username must not contain spaces.
      * <p>
-     * Error0 = "Success" (which means that the email was unique)
+     * Error0 = "Success" (which means that the given email is an email and it is unique and the username does not contains spaces)
      * Error1 = "This email already exists"
      * Error2 = "This isn't and email"
      * Error3 = "This username contains spaces"
@@ -102,7 +101,7 @@ public class StartUpManager {
      * @return the error text
      */
     public String registrationSetEMailAndUsername(String email, String username) throws IOException {
-        if (email.isEmpty() || username.isEmpty() || username.contains(" ")) {
+        if (email.isEmpty() || username.isEmpty()) {
             return "Fill every field";
         }
 
@@ -181,25 +180,13 @@ public class StartUpManager {
     }
 
     /**
-     * We assume that the password must contains at least 8 characters and it must include
-     * at least one letter and at least one number and no spaces.
+     * We assume that the password must contains at least one character and it must not contain spaces
      *
      * @return a boolean values which indicates if the password's format is correct
      */
     private boolean correctPasswordFormat(String password) {
-        boolean doesNotContainsSpaces = !password.contains(" ");
-        boolean enoughCharacters = (password.length() >= 8);
-        boolean letterFound = false;
-        boolean numberFound = false;
-
-        for (char c : password.toCharArray()) {
-            if (Character.isDigit(c)) {
-                numberFound = true;
-            }
-            if (Character.isLetter(c)) {
-                letterFound = true;
-            }
-        }
-        return (enoughCharacters && letterFound && numberFound && doesNotContainsSpaces);
+        boolean enoughCharacters = (password.length() >= 1);
+        boolean doesNotContainSpaces = !password.contains(" ");
+        return enoughCharacters && doesNotContainSpaces;
     }
 }

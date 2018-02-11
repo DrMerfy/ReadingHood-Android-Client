@@ -31,7 +31,8 @@ class ServerConnection {
      * @return the request that was asked to deliver
      * @throws IOException Can not Connect to server
      */
-    protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws IOException, MalformedURLException {
+    protected static String sendAuthenticatedRequest(String link, String email, String password, String requestMethod) throws IOException {
+        int responseCode = -1;
         try {
             System.setOut(noOutputStream); // Silence all outputs
 
@@ -45,6 +46,8 @@ class ServerConnection {
             con.setRequestProperty("User-Agent", "RH-Client");
             con.setRequestProperty("Authorization", "Basic " + authStringEncrypted);
 
+            responseCode = con.getResponseCode();
+
             // Get request response
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -55,14 +58,13 @@ class ServerConnection {
             in.close();
 
             System.setOut(originalStream); // Desilence all outputs
-
             return response.toString();
-        } catch (MalformedURLException e) {
-            System.setOut(originalStream); // Desilence all outputs
-            throw new MalformedURLException();
         } catch (IOException e) {
             System.setOut(originalStream); // Desilence all outputs
-            throw new IOException();
+            if (responseCode == 401) { // Bad credentials
+                throw new IOException("401");
+            }
+            throw e;
         }
     }
 
@@ -94,7 +96,6 @@ class ServerConnection {
             in.close();
 
             System.setOut(originalStream); // Desilence all outputs
-
             return response.toString();
         } catch (IOException e) {
             System.setOut(originalStream);

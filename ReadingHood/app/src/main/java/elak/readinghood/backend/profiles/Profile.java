@@ -68,26 +68,24 @@ public class Profile {
     }
 
     /**
-     * This function returns the reputation of the User.
+     * This function returns the Views of the User.
      *
-     * @return the reputation of the User
+     * @return the views of the User
      * @throws IOException Can not Connect to server
      */
-    public int getReputation() throws IOException {
-        this.reputation = ServerRequest.getReputation(id);
+    public int getViews() throws IOException {
+        this.reputation = ServerRequest.getViews(id);
         return reputation;
     }
 
     /**
-     * This function returns the threads of that have been created from the connected user.
+     * This function returns the threads that have been created from this profile.
      * Possible place to be used : My profile.
-     * <p>
-     * This function is not gonna be used for the time being.
      *
      * @return the threads of the connected user
      * @throws IOException Can not Connect to server
      */
-    private Threads getTheThreadsOfThisProfile() throws IOException {
+    public Threads getThreadsCreatedByThisProfile() throws IOException {
         return ServerRequest.getThreads("threads/created?profile_id=" + Integer.toString(id));
     }
 

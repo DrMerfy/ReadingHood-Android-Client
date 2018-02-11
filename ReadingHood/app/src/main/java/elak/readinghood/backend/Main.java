@@ -1,13 +1,13 @@
 package elak.readinghood.backend;
 
 import elak.readinghood.backend.api.AppManager;
-import elak.readinghood.backend.posts.Post;
+import elak.readinghood.backend.hashTags.HashTags;
 import elak.readinghood.backend.profiles.Profile;
-import elak.readinghood.backend.tags.Tags;
 import elak.readinghood.backend.threads.Thread;
 import elak.readinghood.backend.threads.Threads;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Main {
@@ -39,7 +39,7 @@ public class Main {
             System.out.println(AppManager.getUserProfile().getName());
             System.out.println(AppManager.getUserProfile().getSurname());
             System.out.println(AppManager.getUserProfile().getDepartment());
-            System.out.println(AppManager.getUserProfile().getReputation());
+            System.out.println(AppManager.getUserProfile().getViews());
             AppManager.getUserProfile().setActivity();
             System.out.println(AppManager.getUserProfile().getActivity().getLatestUpVotedPostText());
             System.out.println(AppManager.getUserProfile().getActivity().getLatestDownVotedPostText());
@@ -54,7 +54,7 @@ public class Main {
             System.out.println(profile.getName());
             System.out.println(profile.getSurname());
             System.out.println(profile.getDepartment());
-            System.out.println(profile.getReputation());
+            System.out.println(profile.getViews());
             profile.setActivity();
             System.out.println(profile.getActivity().getLatestUpVotedPostText());
             System.out.println(profile.getActivity().getLatestDownVotedPostText());
@@ -67,32 +67,38 @@ public class Main {
             HashSet<String> tagsStrings = new HashSet<>();
             tagsStrings.add("Json");
             System.out.println(AppManager.createThread("Json Basics", "Can somebody help me json basics for java?", tagsStrings));
+            // then you can see the created post as shown in mock-ups with this function belows with this exact index
+            Thread thread = AppManager.getUserProfile().getThreadsCreatedByThisProfile().seeThread(0);
             //*/
 
             // These are for the newsFeed
-            //*
+            /*
             threads = AppManager.getThreadsAccordingToTheDepartmentOfTheUser();
             threads = AppManager.getPopularThreadsOfNewsFeed();
             threads = AppManager.getRecentThreadsOfNewsFeed();
             //*/
 
             // Search bar
-            // threads = AppManager.getThreadsAccordingToText("java);
-
-            Tags tags;
-
-            // Tag search
             /*
-            tags = AppManager.getMostUsedTags();
-            tags = AppManager.getTagsAccordingToName("C++");
-            tags = AppManager.getThreadsAccordingToATag("C++");
+            threads = AppManager.getThreadsAccordingToText("java");
+            ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToNameAndSurname("Spyridon", "Tsalikis");
+            //*/
+
+
+            HashTags hashTags;
+
+            // HashTag search
+            /*
+            hashTags = AppManager.getMostUsedTags();
+            hashTags = AppManager.getTagsAccordingToName("C++");
+            hashTags = AppManager.getThreadsAccordingToAHashTag("C++");
             //*/
 
             /*
-            // View Tags example
-            System.out.println("\nAsked Tags");
-            for (int i = 0; i < tags.size(); i++) {
-                System.out.println("Name = " + tags.getTag(i).getName() + ", Usages = " + tags.getTag(i).getUsages() + " , id = " + tags.getTag(i).getId());
+            // View HashTags example
+            System.out.println("\nAsked HashTags");
+            for (int i = 0; i < hashTags.size(); i++) {
+                System.out.println("Name = " + hashTags.getTag(i).getName() + ", Usages = " + hashTags.getTag(i).getUsages() + " , id = " + hashTags.getTag(i).getId());
             }
             */
 
@@ -155,8 +161,12 @@ public class Main {
 
             // Answer a Thread
             /*
-            System.out.println("chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
-            System.out.println(chosenThread.getTheLatestAddedPost());
+            // if a thread is not blocked you can answer it
+            if (chosenThread.canYouAnswerThisThread()) {
+                System.out.println(chosenThread.answerThreadWithAPost("I can help you out. Send me and email"));
+                System.out.println(chosenThread.getTheLatestAddedPost());
+
+            }
             //*/
 
             // Settings panel
@@ -167,7 +177,7 @@ public class Main {
             //*/
         } catch (IOException e) {
             // you will put an error dialog here
-            System.out.println("ERROR CONNECTING WITH SERVER");
+            System.out.println("Can't Connect Right Now");
         }
     }
 }

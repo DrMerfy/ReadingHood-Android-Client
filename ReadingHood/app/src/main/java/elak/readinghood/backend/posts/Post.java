@@ -106,6 +106,11 @@ public class Post {
                 return false;
             }
         }
+        for (Profile profile : downVoters) {
+            if (AppManager.getUserProfile().equals(profile)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -119,6 +124,11 @@ public class Post {
             return false;
         }
 
+        for (Profile profile : upVoters) {
+            if (AppManager.getUserProfile().equals(profile)) {
+                return false;
+            }
+        }
         for (Profile profile : downVoters) {
             if (AppManager.getUserProfile().equals(profile)) {
                 return false;
