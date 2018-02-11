@@ -71,11 +71,27 @@ public class ServerRequest {
         }
     }
 
+    /**
+     * This function searches for profiles
+     *
+     * @param name    the name of the profile ot be searched
+     * @param surname the surname of the profile ot be searched
+     * @return the results that follows the can come for the current input
+     * @throws IOException Can not Connect to server
+     */
     public static ArrayList<Profile> getProfiles(String name, String surname) throws IOException {
         ArrayList<Profile> profiles = new ArrayList<>();
         try {
-            String url = "https://readinghood.tk:8443/accounts/search?name=" + URLEncoder.encode(name, "UTF-8") +
-                    "&surname=" + URLEncoder.encode(surname, "UTF-8");
+            String url = "https://readinghood.tk:8443/accounts/search?";
+            if (!name.isEmpty()) {
+                url = url + "name=" + URLEncoder.encode(name, "UTF-8");
+            }
+            if (!surname.isEmpty()) {
+                url = url + "&surname=" + URLEncoder.encode(surname, "UTF-8");
+            }
+            if (name.isEmpty() && surname.isEmpty()) {
+                return new ArrayList<>();
+            }
             String jsonResult = ServerConnection.sendSimpleRequest(url, "GET");
             try {
                 JSONArray jsonProfiles = new JSONArray(jsonResult);

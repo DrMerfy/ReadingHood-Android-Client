@@ -150,13 +150,36 @@ public class AppManager {
      * This function searches for profiles according to the given name and surname and returns the corresponding results.
      * This function is used on the search bar
      *
-     * @param name    is the name that you want to search for
-     * @param surname is the surname that you want to search for
+     * @param text is the user given text to search profiles
      * @return The threads that has been asked to deliver
      * @throws IOException Can not Connect to server
      */
-    public static ArrayList<Profile> getProfilesAccordingToNameAndSurname(String name, String surname) throws IOException {
-        return ServerRequest.getProfiles(name, surname);
+    public static ArrayList<Profile> getProfilesAccordingToText(String text) throws IOException {
+        String[] splited = text.split("\\s+");
+        if (splited.length >= 3 || splited.length == 0) {
+            return new ArrayList<>();
+        } else if (splited.length == 2) {
+            ArrayList<Profile> results = ServerRequest.getProfiles(splited[0], splited[1]);
+            if (results.isEmpty()) {
+                results = ServerRequest.getProfiles(splited[1], splited[0]);
+                if (!results.isEmpty()) {
+                    return results;
+                }
+            } else {
+                return results;
+            }
+        } else {
+            ArrayList<Profile> results = ServerRequest.getProfiles(splited[0], "");
+            if (results.isEmpty()) {
+                results = ServerRequest.getProfiles("", splited[0]);
+                if (!results.isEmpty()) {
+                    return results;
+                }
+            } else {
+                return results;
+            }
+        }
+        return new ArrayList<>();
     }
 
     // HashTags related functions

@@ -81,7 +81,7 @@ public class Main {
             // Search bar
             /*
             threads = AppManager.getThreadsAccordingToText("java");
-            ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToNameAndSurname("Spyridon", "Tsalikis");
+            ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToNameAndSurname("Spyridon Tsalikis");
             //*/
 
 
