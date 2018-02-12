@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ReadingHood</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string-array name="departments_names">
+
+        <item>Computer Science</item>
+        <item>Law</item>
+        <item>Philosophy</item>
+        <item>Theology</item>
+        <item>English Language and Literature</item>
+        <item>History and Archeology</item>
+        <item>Philology</item>
+        <item>Psychology</item>
+        <item>Mathematics</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Economics</item>
+
+    </string-array>
+
+</resources>
