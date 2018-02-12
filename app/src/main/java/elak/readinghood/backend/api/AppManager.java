@@ -69,6 +69,11 @@ public class AppManager {
         boolean titleFullOfSpaces = title.replaceAll("\\s+", "").isEmpty();
         boolean textFullOfSpaces = text.replaceAll("\\s+", "").isEmpty();
         if (title.isEmpty() || text.isEmpty() || textFullOfSpaces || titleFullOfSpaces) {
+            for (String hashTag : hashTags) {
+                if (hashTag.isEmpty()) {
+                    return "Fill the fields";
+                }
+            }
             return "Fill the fields";
         }
 
@@ -297,7 +302,7 @@ public class AppManager {
     private static boolean correctHashTagFormat(String hashTag) {
         for (int i = 0; i < hashTag.length(); i++) {
             if (!Character.isLetter(hashTag.charAt(i)) && !Character.isDigit(hashTag.charAt(i)) && !(hashTag.charAt(i) == '_')) {
-                System.err.println("A "+hashTag.charAt(i));
+                System.err.println("A " + hashTag.charAt(i));
                 return false;
             }
 

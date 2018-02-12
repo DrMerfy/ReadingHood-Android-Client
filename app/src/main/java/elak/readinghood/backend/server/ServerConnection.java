@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 
-import android.os.StrictMode;
 import android.util.Base64;
 
 import javax.net.ssl.HttpsURLConnection;

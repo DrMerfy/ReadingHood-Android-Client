@@ -1,7 +1,5 @@
 package elak.readinghood.backend.server;
 
-import android.nfc.Tag;
-
 import elak.readinghood.backend.posts.Post;
 import elak.readinghood.backend.posts.Posts;
 import elak.readinghood.backend.profiles.Profile;
@@ -41,7 +39,7 @@ public class ServerRequest {
         try {
             JSONObject jsonObject = new JSONObject(jsonResult);
             String jsonEmail = jsonObject.getString("email");
-            return jsonEmail.equals(email);
+            return jsonEmail != null && jsonEmail.equals(email);
         } catch (JSONException J) {
             return false;
         }
