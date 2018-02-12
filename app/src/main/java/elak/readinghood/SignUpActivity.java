@@ -20,6 +20,26 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final EditText myEdiText1 = (EditText)findViewById(R.id.usernameSignUpEditText);
+        myEdiText1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    myEdiText1.setHint("");
+                else
+                    myEdiText1.setHint("username");
+            }
+        });
+
+        final EditText myEdiText2 = (EditText)findViewById(R.id.emailSignUpEditText);
+        myEdiText2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    myEdiText2.setHint("");
+                else
+                    myEdiText2.setHint("email");
+            }
+        });
     }
 
     public void next(View view) {
@@ -45,4 +65,5 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(new Intent(this, ComeFromActivity.class));
 
     }
+
 }

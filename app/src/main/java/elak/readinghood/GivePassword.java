@@ -19,11 +19,31 @@ public class GivePassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_givepassword);
+
+        final EditText myEdiText1 = (EditText)findViewById(R.id.givePasswordpasswordEditText);
+        myEdiText1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    myEdiText1.setHint("");
+                else
+                    myEdiText1.setHint("password");
+            }
+        });
+
+        final EditText myEdiText2 = (EditText)findViewById(R.id.givePasswordconfirmEditText);
+        myEdiText2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    myEdiText2.setHint("");
+                else
+                    myEdiText2.setHint("confirm password");
+            }
+        });
     }
 
     public void next(View view) {
-        password = ((EditText) findViewById(R.id.passwordSignUpEditText)).getText().toString();
-        rePassword = ((EditText) findViewById(R.id.rePasswordSignUpEditText)).getText().toString();
+        password = ((EditText) findViewById(R.id.givePasswordpasswordEditText)).getText().toString();
+        rePassword = ((EditText) findViewById(R.id.givePasswordconfirmEditText)).getText().toString();
 
 
         Toast toast = null;

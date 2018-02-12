@@ -2,12 +2,16 @@ package elak.readinghood;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.io.IOException;
 
@@ -20,6 +24,7 @@ public class NewsFeedActivity extends AppCompatActivity {
     ListView listView;
     ThreadsAdapter adapter;
     SearchView editsearch;
+    private Toolbar toolbar;
 
 
     @Override
@@ -81,6 +86,7 @@ public class NewsFeedActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
     }
 

@@ -20,11 +20,31 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final EditText myEdiText1 = (EditText)findViewById(R.id.loginEmailEditText);
+        myEdiText1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    myEdiText1.setHint("");
+                else
+                    myEdiText1.setHint("email");
+            }
+        });
+
+        final EditText myEdiText2 = (EditText)findViewById(R.id.loginPasswordEditText);
+        myEdiText2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    myEdiText2.setHint("");
+                else
+                    myEdiText2.setHint("password");
+            }
+        });
     }
 
     public void login(View view) {
-        email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
-        password = ((EditText) findViewById(R.id.passwordEditText)).getText().toString();
+        email = ((EditText) findViewById(R.id.loginEmailEditText)).getText().toString();
+        password = ((EditText) findViewById(R.id.loginPasswordEditText)).getText().toString();
 
         try {
             String message=AppManager.getStartUpManager().login(email, password);
