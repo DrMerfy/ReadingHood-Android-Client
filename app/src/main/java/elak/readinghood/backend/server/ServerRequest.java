@@ -39,7 +39,7 @@ public class ServerRequest {
         try {
             JSONObject jsonObject = new JSONObject(jsonResult);
             String jsonEmail = jsonObject.getString("email");
-            return jsonEmail != null && jsonEmail.equals(email);
+            return jsonEmail.equals(email);
         } catch (JSONException J) {
             return false;
         }
