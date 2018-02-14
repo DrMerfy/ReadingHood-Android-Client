@@ -95,5 +95,10 @@ public class NewsFeedActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void navigate(View view){
+
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
 
 }

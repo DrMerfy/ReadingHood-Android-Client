@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_launcher_background" />
+    <item android:drawable="@drawable/forest" />
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/listview_background_shape">

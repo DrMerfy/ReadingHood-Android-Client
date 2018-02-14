@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/rootView"
-    tools:context="elak.profile.ProfileActivity">
+    android:id="@+id/rootView">
 
     <LinearLayout
+        android:id="@+id/startLayout"
         android:layout_width="326dp"
         android:layout_height="180dp"
-        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:background="@drawable/profile_shape"
@@ -26,6 +25,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/profileImage"
+                android:background="@drawable/ic_profilepic"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -164,14 +164,18 @@
         android:layout_width="326dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp"
         android:background="@drawable/profile_shape2"
-        android:layout_gravity="center">
+        android:layout_marginBottom="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/startLayout"
+        android:layout_above="@+id/bottonNavBar"
+        android:layout_centerInParent="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="6dp"
             android:text="Activity"
             android:textSize="17dp"
             android:fontFamily="regular" />
@@ -185,6 +189,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Created"
                 android:textSize="15dp"
                 android:fontFamily="regular" />
@@ -239,4 +244,73 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:elevation="10dp"
+        android:background="@android:color/white"
+        android:id="@+id/bottonNavBar"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:text="profile"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:checked="false"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_profile"
+            android:background="@android:color/white"
+            android:id="@+id/profileRadioButton"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:checked="false"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_newsfeed"
+            android:background="@android:color/white"
+            android:id="@+id/newsfeedRadioButton"
+            android:text="newsfeed"
+            android:onClick="navigate"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:checked="false"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_hashtag"
+            android:background="@android:color/white"
+            android:id="@+id/tagsRadioButton"
+            android:text="tags"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:id="@+id/settingsRadioButton"
+            android:paddingTop="5dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_weight="1"
+            android:checked="false"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_settings"
+            android:background="@android:color/white"
+            android:text="settings"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
