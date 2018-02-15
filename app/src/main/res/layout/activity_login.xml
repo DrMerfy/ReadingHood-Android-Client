@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +21,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="80dp"
-            android:text="Hi again."
+            android:text="Hi again!"
             android:textSize="18sp"
             android:textColor="@android:color/white" />
 
@@ -41,7 +42,7 @@
             android:layout_marginTop="90dp"
             android:background="@drawable/myedittextbutton"
             android:hint="email"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:textAlignment="center"
@@ -72,14 +73,14 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/loginPasswordEditText"
+            android:layout_marginTop="140dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/mybutton"
             android:elevation="10dp"
             android:text="Log in"
             android:visibility="visible"
-            android:onClick="login"/>
-
+            android:onClick="login" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,40 +13,36 @@
         android:layout_centerInParent="true"
         app:srcCompat="@drawable/reading_hood_logo" />
 
-    <GridLayout
-        android:id="@+id/gridLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonSignUp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
+            android:layout_height="65dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimaryLight"
+            android:onClick="startSignup"
             android:text="Sign Up"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:onClick="startSignup" />
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/buttonLogIn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
+            android:layout_height="65dp"
+            android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
+            android:onClick="startLogin"
             android:text="Log In"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:onClick="startLogin" />
+            android:textColor="@android:color/white" />
 
-    </GridLayout>
-
-
+    </LinearLayout>
 
 </RelativeLayout>

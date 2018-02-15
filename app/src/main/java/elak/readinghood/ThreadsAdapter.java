@@ -18,10 +18,11 @@ import elak.readinghood.backend.threads.Thread;
 
 public class ThreadsAdapter extends ArrayAdapter<Thread> {
 
+    ArrayList<Thread> threads;
+
     public ThreadsAdapter(Activity context, ArrayList<Thread> threads) {
         super(context, R.layout.list_item, threads);
-
-
+        this.threads = threads;
     }
 
 
@@ -53,5 +54,11 @@ public class ThreadsAdapter extends ArrayAdapter<Thread> {
         return listItemView;
 
 
+    }
+
+    public void refreshEvents(ArrayList<Thread> threads) {
+        this.threads.clear();
+        this.threads.addAll(threads);
+        notifyDataSetChanged();
     }
 }

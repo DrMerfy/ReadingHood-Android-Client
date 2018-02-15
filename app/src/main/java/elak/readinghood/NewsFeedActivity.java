@@ -21,7 +21,7 @@ public class NewsFeedActivity extends AppCompatActivity {
     ListView listView;
     ThreadsAdapter adapter;
     SearchView editsearch;
-    private Toolbar toolbar;
+
 
 
     @Override
@@ -67,22 +67,30 @@ public class NewsFeedActivity extends AppCompatActivity {
             }
 
         });
-        editsearch = (SearchView) findViewById(R.id.Search);
 
+        editsearch = (SearchView) findViewById(R.id.Search);
 
         editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-// do something on text submit
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                //adapter.getFilter().filter(newText);
+
+                try {
+                    threads = AppManager.getThreadsAccordingToText(newText);
+                    adapter.refreshEvents(threads.getListOfThreads());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 return false;
             }
         });
+
 
 
     }
