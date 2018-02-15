@@ -245,8 +245,8 @@ public class ServerRequest {
                     int id = thread.getInt("id");
 
                     //getting title
-
                     String title = thread.getString("title");
+
                     //getting views
                     int views = thread.getInt("views");
 
@@ -428,6 +428,9 @@ public class ServerRequest {
             String jsonName;
             try {
                 jsonName = jsonProfile.getString("name");
+                if (jsonName.equals("null")) {
+                    jsonName = "";
+                }
             } catch (JSONException J) {
                 jsonName = "";
             }
@@ -436,6 +439,9 @@ public class ServerRequest {
             String jsonSurname;
             try {
                 jsonSurname = jsonProfile.getString("surname");
+                if (jsonSurname.equals("null")) {
+                    jsonSurname = "";
+                }
             } catch (JSONException J) {
                 jsonSurname = "";
             }
@@ -452,6 +458,9 @@ public class ServerRequest {
             String jsonDepartment;
             try {
                 jsonDepartment = jsonProfile.getString("department");
+                if (jsonDepartment.equals("null")) {
+                    jsonDepartment = "";
+                }
             } catch (JSONException J) {
                 jsonDepartment = "";
             }
