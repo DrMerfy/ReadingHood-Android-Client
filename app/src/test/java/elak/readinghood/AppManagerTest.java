@@ -21,11 +21,11 @@ public class AppManagerTest {
             HashSet<String> tags = new HashSet<String>();
 
             tags.add("No_Spaces");
-            String test1 = AppManager.createThread("#Title is-not_empty@", "Hello mother i am here", tags);
+            String test1 = AppManager.createThread("#Title is-not_empty@", "Hello world!", tags);
 
             tags.clear();
             tags.add("With Spaces");
-            String test2 = AppManager.createThread("#Title is-not_empty@", "Hello mother i am here", tags);
+            String test2 = AppManager.createThread("#Title is-not_empty@", "Hello world!", tags);
 
             tags.clear();
             tags.add("No_Spaces");
@@ -37,11 +37,11 @@ public class AppManagerTest {
 
             tags.clear();
             tags.add("No_Spaces");
-            String test5 = AppManager.createThread("        ", "Hello mother i am here", tags);
+            String test5 = AppManager.createThread("        ", "Hello world!", tags);
 
             tags.clear();
             tags.add("With Spaces");
-            String test6 = AppManager.createThread("        ", "Hello mother i am here", tags);
+            String test6 = AppManager.createThread("        ", "Hello world!", tags);
 
             tags.clear();
             tags.add("No_Spaces");
@@ -93,26 +93,26 @@ public class AppManagerTest {
 
             tags.clear();
             tags.add("");
-            String test19 = AppManager.createThread("Hello World", "Hello mother i am here", tags);
+            String test19 = AppManager.createThread("Hello World", "Hello world!", tags);
 
             tags.clear();
             tags.add(" ");
-            String test20 = AppManager.createThread("Hello World", "Hello mother i am here", tags);
+            String test20 = AppManager.createThread("Hello World", "Hello world!", tags);
 
             tags.clear();
             tags.add("!");
-            String test21 = AppManager.createThread("Hello World", "Hello mother i am here", tags);
+            String test21 = AppManager.createThread("Hello World", "Hello world!", tags);
 
             tags.clear();
-            String test22 = AppManager.createThread("Hello World", "Hello mother i am here", tags);
+            String test22 = AppManager.createThread("Hello World", "Hello world!", tags);
 
             tags.clear();
             tags.add("n_");
-            String test23 = AppManager.createThread("Hello World", "Hello mother i am here", tags);
+            String test23 = AppManager.createThread("Hello World", "Hello world!", tags);
 
             tags.clear();
             tags.add("_n");
-            String test24 = AppManager.createThread("Hello World", "Hello mother i am here", tags);
+            String test24 = AppManager.createThread("Hello World", "Hello world!", tags);
 
 
             tags.clear();
