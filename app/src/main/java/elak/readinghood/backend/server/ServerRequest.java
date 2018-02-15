@@ -417,58 +417,51 @@ public class ServerRequest {
             JSONObject jsonProfile = new JSONObject(option);
 
             // the id of the profile
-            int jsonId = 0;
+            int jsonId;
             try {
                 jsonId = jsonProfile.getInt("id");
             } catch (JSONException J) {
+                jsonId = 0;
             }
 
             // the name of the profile
-            String jsonName = "";
+            String jsonName;
             try {
                 jsonName = jsonProfile.getString("name");
-                if (jsonName == null) {
-                    jsonName = "";
-                }
             } catch (JSONException J) {
+                jsonName = "";
             }
 
             // the surname of the profile
-            String jsonSurname = "";
+            String jsonSurname;
             try {
                 jsonSurname = jsonProfile.getString("surname");
-                if (jsonSurname == null) {
-                    jsonSurname = "";
-                }
             } catch (JSONException J) {
+                jsonSurname = "";
             }
 
             // the username of the profile
-            String jsonUsername = "";
+            String jsonUsername;
             try {
                 jsonUsername = jsonProfile.getString("username");
-                if (jsonUsername == null) {
-                    jsonUsername = "";
-                }
             } catch (JSONException J) {
-
+                jsonUsername = "";
             }
 
             // the department of the profile
-            String jsonDepartment = "";
+            String jsonDepartment;
             try {
                 jsonDepartment = jsonProfile.getString("department");
-                if (jsonDepartment == null) {
-                    jsonDepartment = "";
-                }
             } catch (JSONException J) {
+                jsonDepartment = "";
             }
 
             // the reputation of the profile
-            int jasonReputation = 0;
+            int jasonReputation;
             try {
                 jasonReputation = jsonProfile.getInt("votes");
             } catch (JSONException J) {
+                jasonReputation = 0;
             }
 
             return new Profile(jsonId, jasonReputation, jsonUsername, jsonName, jsonSurname, jsonDepartment);
