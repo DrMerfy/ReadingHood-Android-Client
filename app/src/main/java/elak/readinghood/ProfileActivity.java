@@ -36,15 +36,22 @@ public class ProfileActivity extends AppCompatActivity {
 
             int respectString = AppManager.getUserProfile().getRespect();
             TextView repsect = (TextView) findViewById(R.id.respectTextView);
-            //repsect.setText(respectString);
+            repsect.setText(String.valueOf(respectString));
 
 
             AppManager.getUserProfile().setActivity();
 
+            String latestCreatedThread = AppManager.getUserProfile().getActivity().getLatestCreatedThreadTitle();
+            TextView created = (TextView) findViewById(R.id.createdPostTextView);
+            created.setText(latestCreatedThread);
 
-            System.out.println(AppManager.getUserProfile().getActivity().getLatestUpVotedPostText());
-            System.out.println(AppManager.getUserProfile().getActivity().getLatestDownVotedPostText());
-            System.out.println(AppManager.getUserProfile().getActivity().getLatestCreatedThreadTitle());
+            String latestUpVotedPost = AppManager.getUserProfile().getActivity().getLatestUpVotedPostText();
+            TextView votedUp = (TextView) findViewById(R.id.votedUpTextView);
+            votedUp.setText(latestUpVotedPost);
+
+            String latestDownVotedPost = AppManager.getUserProfile().getActivity().getLatestDownVotedPostText();
+            TextView votedDown = (TextView) findViewById(R.id.votedDownTextView);
+            votedDown.setText(latestDownVotedPost);
 
         } catch (IOException e) {
             Toast toast = Toast.makeText(this, "Problem with server", Toast.LENGTH_LONG);

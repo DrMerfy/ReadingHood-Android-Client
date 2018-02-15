@@ -26,7 +26,7 @@ public class Main {
             //*/
 
             // example of login
-            System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
+            //System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
             // System.out.println(AppManager.getStartUpManager().login("melissourgos@hotmail.com", "a1234567"));
 
             AppManager.setUserProfile();
@@ -113,7 +113,7 @@ public class Main {
             }
             //*/
 
-            System.out.println();
+            //System.out.println();
 
 
             // How to select a thread that you wanna see
@@ -176,7 +176,7 @@ public class Main {
             //*/
         } catch (IOException e) {
             // you will put an error dialog here
-            System.out.println("Can't Connect Right Now");
+            //System.out.println("Can't Connect Right Now");
         }
     }
 }
