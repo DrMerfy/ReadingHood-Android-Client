@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ReadingHood-Android-Client.iml" filepath="$PROJECT_DIR$/ReadingHood-Android-Client.iml" />
-      <module fileurl="file://C:\Users\Alexandros Andreou\Desktop\ReadingHood-Android-Client\ReadingHood-Android-Client.iml" filepath="C:\Users\Alexandros Andreou\Desktop\ReadingHood-Android-Client\ReadingHood-Android-Client.iml" />
       <module fileurl="file://D:\Programming\Android\ReadingHood-Android-Client\ReadingHood-Android-Client.iml" filepath="D:\Programming\Android\ReadingHood-Android-Client\ReadingHood-Android-Client.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
