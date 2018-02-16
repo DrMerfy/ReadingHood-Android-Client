@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/grad">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Edit name"
+            android:textAllCaps="false"
+            android:textAlignment="textStart"
+            android:textSize="26sp"
+            android:gravity="start"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/white"
+            android:onClick="editName"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="2dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Edit surname"
+            android:textAllCaps="false"
+            android:textAlignment="textStart"
+            android:textSize="26sp"
+            android:gravity="start"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/white"
+            android:onClick="editSurname"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="2dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Log Out"
+            android:textAllCaps="false"
+            android:textAlignment="textStart"
+            android:textSize="26sp"
+            android:gravity="start"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/white"
+            android:onClick="logOut"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            android:layout_marginBottom="2dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:elevation="10dp"
+        android:background="@android:color/white"
+        android:id="@+id/bottonNavBar"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:text="profile"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:checked="false"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_profile"
+            android:background="@android:color/white"
+            android:id="@+id/profileRadioButton"
+            android:onClick="navigate1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:checked="false"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_newsfeed"
+            android:background="@android:color/white"
+            android:id="@+id/newsfeedRadioButton"
+            android:text="newsfeed"
+            android:onClick="navigate2"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:checked="false"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_hashtag"
+            android:background="@android:color/white"
+            android:id="@+id/tagsRadioButton"
+            android:text="tags"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:id="@+id/settingsRadioButton"
+            android:paddingTop="5dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_weight="1"
+            android:checked="false"
+            android:textSize="12sp"
+            android:drawableTop="@drawable/ic_settings"
+            android:background="@android:color/white"
+            android:text="settings"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
