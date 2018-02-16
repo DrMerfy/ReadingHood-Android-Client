@@ -17,7 +17,7 @@ import elak.readinghood.backend.profiles.Profile;
 
 public class SettingsActivity extends AppCompatActivity {
     private String changedName="";
-    private String changedSurnName="";
+    private String changedSurname="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
                         toast.show();
                         return;
                     }
+                    Toast toast = Toast.makeText(getApplicationContext(),"Name Changed Successful", Toast.LENGTH_LONG);
+                    toast.show();
                 } catch (IOException e) {
                     Toast toast = Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
                     toast.show();
@@ -78,14 +80,16 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                changedSurnName = input.getText().toString();
+                changedSurname = input.getText().toString();
                 try {
-                    String message= AppManager.getUserProfile().editSurname(changedSurnName);
+                    String message= AppManager.getUserProfile().editSurname(changedSurname);
                     if (!message.equals("Success")) {
                         Toast toast = Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG);
                         toast.show();
                         return;
                     }
+                    Toast toast = Toast.makeText(getApplicationContext(),"Surname Changed Successful", Toast.LENGTH_LONG);
+                    toast.show();
                 } catch (IOException e) {
                     Toast toast = Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
                     toast.show();
@@ -108,7 +112,10 @@ public class SettingsActivity extends AppCompatActivity {
         String message=AppManager.logOut();
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
-        startActivity(new Intent(this, StartActivity.class));
+
+        Intent intent = new Intent(this, StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public void navigate1(View view){
