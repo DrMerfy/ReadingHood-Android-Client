@@ -18,5 +18,6 @@
         <item>Economics</item>
 
     </string-array>
+    <string name="title_activity_test">test</string>
 
 </resources>

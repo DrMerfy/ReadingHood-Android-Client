@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         // !!!!!!!!! MANY FUNCTIONS HAVE STRING RESULTS or booleans. YOU CAN CHECK WITH SYSTEM.OUT.PRINTLN()!!!!!!!!!
-        try {
+        //try {
             // Start Panel
             // registration example
             /*
@@ -29,10 +29,10 @@ public class Main {
             // System.out.println(AppManager.getStartUpManager().login("spyridon97@hotmail.com", "a1234567"));
             // System.out.println(AppManager.getStartUpManager().login("melissourgos@hotmail.com", "a1234567"));
 
-            AppManager.setUserProfile();
+            //AppManager.setUserProfile();
 
 
-            Threads threads;
+            //Threads threads;
 
             // Profile panel of the user
             /*
@@ -83,7 +83,7 @@ public class Main {
             ArrayList<Profile> profilesAsked = AppManager.getProfilesAccordingToText("Spyridon Tsalikis");
             //*/
 
-            HashTags hashTags;
+            //HashTags hashTags;
 
             // HashTag search
             /*
@@ -173,9 +173,9 @@ public class Main {
             System.out.println(AppManager.getUserProfile().editSurname("Tsalikis"));
             System.out.println(AppManager.logOut());
             //*/
-        } catch (IOException e) {
+        //} catch (IOException e) {
             // you will put an error dialog here
             //System.out.println("Can't Connect Right Now");
-        }
+        //}
     }
 }

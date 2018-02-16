@@ -81,7 +81,7 @@ public class UserProfile extends Profile {
         }
         String[] splitted = newName.split("\\s+");
         if (splitted.length < 1 || splitted.length > 2) {
-            return "The name must contains 1 or 2 terms only only delimited with space";
+            return "The name must contains 1 or 2 terms only delimited with space";
         }
         ServerUpdate.editName(newName);
         this.name = newName;
@@ -106,7 +106,7 @@ public class UserProfile extends Profile {
         }
         String[] splitted = newSurname.split("\\s+");
         if (splitted.length < 1 || splitted.length > 2) {
-            return "The surname must contains 1 or 2 terms only only delimited with space";
+            return "The surname must contains 1 or 2 terms only delimited with space";
         }
         ServerUpdate.editSurname(newSurname);
         this.surname = newSurname;

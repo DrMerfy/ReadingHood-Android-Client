@@ -232,7 +232,7 @@
             android:background="@android:color/white"
             android:id="@+id/newsfeedRadioButton"
             android:text="newsfeed"
-            android:onClick="navigate"/>
+            android:onClick="navigate2"/>
 
         <Button
             android:layout_width="match_parent"
@@ -261,7 +261,8 @@
             android:textSize="12sp"
             android:drawableTop="@drawable/ic_settings"
             android:background="@android:color/white"
-            android:text="settings"/>
+            android:text="settings"
+            android:onClick="navigate4"/>
     </LinearLayout>
 
 

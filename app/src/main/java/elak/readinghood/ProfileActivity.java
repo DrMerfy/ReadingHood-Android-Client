@@ -9,14 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Set;
 
 import elak.readinghood.backend.api.AppManager;
 
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
         try {
@@ -61,8 +62,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void navigate(View view){
+    public void navigate2(View view){
 
         startActivity(new Intent(this, NewsFeedActivity.class));
+    }
+
+    public void navigate4(View view){
+
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 }

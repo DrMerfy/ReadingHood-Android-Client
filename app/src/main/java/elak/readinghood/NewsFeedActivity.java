@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.io.IOException;
 
@@ -100,9 +99,14 @@ public class NewsFeedActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void navigate(View view){
+    public void navigate1(View view){
 
         startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void navigate4(View view){
+
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
 

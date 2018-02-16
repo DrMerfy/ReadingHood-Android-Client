@@ -65,7 +65,7 @@
             android:drawableTop="@drawable/ic_profile"
             android:background="@android:color/white"
             android:id="@+id/profileRadioButton"
-            android:onClick="navigate"/>
+            android:onClick="navigate1"/>
 
         <Button
             android:layout_width="match_parent"
@@ -107,7 +107,8 @@
             android:textSize="12sp"
             android:drawableTop="@drawable/ic_settings"
             android:background="@android:color/white"
-            android:text="settings"/>
+            android:text="settings"
+            android:onClick="navigate4"/>
     </LinearLayout>
 
 
