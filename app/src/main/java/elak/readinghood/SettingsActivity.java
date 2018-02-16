@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
                         toast.show();
                         return;
                     }
-                    Toast toast = Toast.makeText(getApplicationContext(),"Name Changed Successful", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(),"Name Changed Successfully", Toast.LENGTH_LONG);
                     toast.show();
                 } catch (IOException e) {
                     Toast toast = Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                         toast.show();
                         return;
                     }
-                    Toast toast = Toast.makeText(getApplicationContext(),"Surname Changed Successful", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(),"Surname Changed Successfully", Toast.LENGTH_LONG);
                     toast.show();
                 } catch (IOException e) {
                     Toast toast = Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);

@@ -27,7 +27,7 @@
             android:padding="10dp"
             android:shadowColor="@android:color/black"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="17sp"
             tools:text="10" />
 
         <TextView

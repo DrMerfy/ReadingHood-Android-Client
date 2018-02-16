@@ -9,7 +9,6 @@
         android:id="@+id/posts_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/grad"
         android:padding="15dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="20.0sp" />
